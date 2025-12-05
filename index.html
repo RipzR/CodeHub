@@ -1,0 +1,3564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Hub - Learn, Code, Create</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════════════
+           CSS RESET & OCEAN BLUE VARIABLES
+        ═══════════════════════════════════════════════════════════════════════════ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #020617;
+            --bg-secondary: #0c1222;
+            --bg-tertiary: #111827;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            
+            /* Ocean blue theme colors */
+            --blue-primary: #0ea5e9;
+            --blue-secondary: #0284c7;
+            --blue-dark: #0369a1;
+            --blue-light: #38bdf8;
+            --blue-glow: rgba(14, 165, 233, 0.5);
+            
+            --cyan-primary: #22d3ee;
+            --cyan-glow: rgba(34, 211, 238, 0.5);
+            
+            --teal-primary: #14b8a6;
+            --teal-glow: rgba(20, 184, 166, 0.5);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-dim: #475569;
+            
+            --border-color: rgba(14, 165, 233, 0.15);
+            --border-hover: rgba(14, 165, 233, 0.4);
+            
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 40px var(--blue-glow);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           ANIMATED BACKGROUND EFFECTS - OCEAN THEME
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: orb-float 25s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .glow-orb-1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--blue-primary) 0%, var(--blue-dark) 40%, transparent 70%);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .glow-orb-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--cyan-primary) 0%, transparent 70%);
+            top: 40%;
+            right: -200px;
+            animation-delay: -8s;
+        }
+
+        .glow-orb-3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--teal-primary) 0%, transparent 70%);
+            bottom: -200px;
+            left: 20%;
+            opacity: 0.25;
+            animation-delay: -16s;
+        }
+
+        .glow-orb-4 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--blue-light) 0%, transparent 70%);
+            top: 60%;
+            left: 60%;
+            opacity: 0.2;
+            animation-delay: -12s;
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(60px, -60px) scale(1.1) rotate(90deg); }
+            50% { transform: translate(-40px, 40px) scale(0.9) rotate(180deg); }
+            75% { transform: translate(-60px, -40px) scale(1.05) rotate(270deg); }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: grid-scroll 30s linear infinite;
+        }
+
+        @keyframes grid-scroll {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(80px); }
+        }
+
+        .particles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 10s ease-in-out infinite;
+        }
+
+        .particle-blue {
+            background: var(--blue-light);
+            box-shadow: 0 0 6px var(--blue-glow);
+        }
+
+        .particle-cyan {
+            background: var(--cyan-primary);
+            box-shadow: 0 0 6px var(--cyan-glow);
+        }
+
+        .particle-teal {
+            background: var(--teal-primary);
+            box-shadow: 0 0 6px var(--teal-glow);
+        }
+
+        @keyframes particle-float {
+            0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-100px) translateX(var(--drift, 20px)) scale(1); }
+        }
+
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            opacity: 0.1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230ea5e9' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 50% 100%;
+            animation: wave-move 15s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            bottom: 10px;
+            opacity: 0.5;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           PAGE LOADER
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 24px;
+            animation: loader-pulse 2s ease-in-out infinite;
+            box-shadow: var(--shadow-glow);
+        }
+
+        @keyframes loader-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px var(--blue-glow); }
+            50% { transform: scale(1.1); box-shadow: 0 0 80px var(--blue-glow), 0 0 120px rgba(14, 165, 233, 0.3); }
+        }
+
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--bg-card);
+            border-top-color: var(--blue-primary);
+            border-right-color: var(--cyan-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            animation: text-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes text-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           NAVIGATION BAR - OCEAN BLUE
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 1200px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            animation: nav-slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes nav-slide-down {
+            from { opacity: 0; transform: translateX(-50%) translateY(-40px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: white;
+            transition: var(--transition-normal);
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+
+        .nav-logo:hover .nav-logo-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 40px var(--blue-glow);
+        }
+
+        .nav-logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--blue-light), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue-primary), var(--cyan-primary));
+            transition: var(--transition-normal);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .nav-link:hover::before {
+            width: 60%;
+        }
+
+        .nav-link.active {
+            color: var(--blue-light);
+            background: rgba(14, 165, 233, 0.15);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--blue-glow);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: var(--transition-normal);
+        }
+
+        .mobile-menu-btn:hover {
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           MAIN CONTENT
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           HERO SECTION - OCEAN BLUE
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .hero-section {
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            animation: fade-in-up 0.8s ease both;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: badge-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-size: clamp(56px, 12vw, 120px);
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: 4px;
+            line-height: 1;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-light) 25%, var(--text-primary) 50%, var(--cyan-primary) 75%, var(--blue-primary) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: title-gradient 5s linear infinite, fade-in-up 0.8s ease 0.1s both;
+            filter: drop-shadow(0 0 40px var(--blue-glow));
+        }
+
+        @keyframes title-gradient {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fade-in-up 0.8s ease 0.2s both;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-in-up 0.8s ease 0.3s both;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            border: none;
+        }
+
+        .hero-btn-primary {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+            box-shadow: 0 4px 20px var(--blue-glow);
+        }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px var(--blue-glow);
+        }
+
+        .hero-btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-btn-secondary:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           FEATURES SECTION
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .features-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue-light);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-primary), var(--cyan-primary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.15);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px var(--blue-glow);
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           LEARN CODE SECTION
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .learn-section {
+            padding: 100px 0;
+        }
+
+        .learn-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .learn-title {
+            font-size: clamp(32px, 6vw, 52px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--cyan-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .learn-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .language-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .language-tab {
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-tab:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .language-tab.active {
+            border-color: var(--blue-primary);
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+            box-shadow: 0 10px 30px var(--blue-glow);
+        }
+
+        .language-tab-icon {
+            font-size: 24px;
+        }
+
+        .learn-content {
+            display: none;
+            animation: fade-in-up 0.5s ease;
+        }
+
+        .learn-content.active {
+            display: block;
+        }
+
+        .learn-box {
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .learn-box-header {
+            padding: 24px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .learn-box-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .learn-box-title-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--cyan-primary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .learn-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            width: 150px;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue-primary), var(--cyan-primary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .learn-box-body {
+            padding: 32px;
+        }
+
+        .lesson-step {
+            display: none;
+            animation: slide-in 0.5s ease;
+        }
+
+        .lesson-step.active {
+            display: block;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .lesson-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .lesson-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .code-example {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .code-example-header {
+            padding: 12px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-example-lang {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-example-copy {
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(14, 165, 233, 0.2);
+            border: none;
+            color: var(--blue-light);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .code-example-copy:hover {
+            background: rgba(14, 165, 233, 0.3);
+        }
+
+        .code-example-body {
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .code-example-body pre {
+            margin: 0;
+        }
+
+        .code-keyword { color: var(--blue-light); }
+        .code-function { color: #34d399; }
+        .code-string { color: #fbbf24; }
+        .code-comment { color: var(--text-muted); font-style: italic; }
+        .code-number { color: #f472b6; }
+
+        .your-turn-box {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(34, 211, 238, 0.05));
+            border: 2px dashed var(--blue-primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .your-turn-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--blue-light);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .your-turn-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .code-input-area {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .code-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+        }
+
+        .code-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .lesson-btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-btn-primary {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+        }
+
+        .lesson-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--blue-glow);
+        }
+
+        .lesson-btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .lesson-btn-secondary:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .lesson-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .result-box {
+            display: none;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-top: 24px;
+            animation: fade-in-up 0.5s ease;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-header {
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .result-badge.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .result-badge.info {
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--blue-light);
+        }
+
+        .result-body {
+            padding: 20px;
+        }
+
+        .result-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .result-column {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .result-column-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-column pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .topic-card {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            text-align: center;
+        }
+
+        .topic-card:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .topic-card.active {
+            border-color: var(--blue-primary);
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(34, 211, 238, 0.1));
+        }
+
+        .topic-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .topic-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .topic-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           AI CHAT SECTION
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .ai-section {
+            padding: 100px 0;
+        }
+
+        .ai-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .ai-header {
+            padding: 20px 28px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .ai-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blue-primary), var(--cyan-primary), var(--blue-primary), transparent);
+            animation: glow-sweep 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-sweep {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
+            50% { opacity: 1; transform: scaleX(1); }
+        }
+
+        .ai-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .ai-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 0 30px var(--blue-glow);
+            animation: logo-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes logo-glow {
+            0%, 100% { box-shadow: 0 0 30px var(--blue-glow); }
+            50% { box-shadow: 0 0 50px var(--blue-glow), 0 0 80px rgba(14, 165, 233, 0.3); }
+        }
+
+        .ai-header-info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ai-header-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ai-status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: status-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .ai-model-badge {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-model-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--teal-primary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .ai-model-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .ai-model-version {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .ai-chat-area {
+            height: 450px;
+            overflow-y: auto;
+            padding: 28px;
+        }
+
+        .ai-chat-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ai-chat-area::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .ai-welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+
+        .ai-welcome-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            margin-bottom: 28px;
+            box-shadow: 0 0 80px var(--blue-glow);
+            animation: welcome-float 4s ease-in-out infinite;
+        }
+
+        @keyframes welcome-float {
+            0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 60px var(--blue-glow); }
+            50% { transform: translateY(-10px) scale(1.05); box-shadow: 0 0 100px var(--blue-glow), 0 20px 60px rgba(14, 165, 233, 0.3); }
+        }
+
+        .ai-welcome-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, var(--blue-light), var(--text-primary), var(--cyan-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ai-welcome-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .ai-feature-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+
+        .ai-badge {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-normal);
+        }
+
+        .ai-badge:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .ai-badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--cyan-primary);
+            border-radius: 50%;
+        }
+
+        .ai-suggestions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            max-width: 600px;
+        }
+
+        .ai-suggestion {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .ai-suggestion:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.15);
+            color: var(--text-primary);
+        }
+
+        .ai-suggestion svg {
+            color: var(--blue-light);
+            flex-shrink: 0;
+        }
+
+        .chat-messages {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .chat-messages.active {
+            display: flex;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 16px;
+            animation: message-slide 0.4s ease;
+        }
+
+        @keyframes message-slide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .message-avatar.user {
+            background: linear-gradient(135deg, var(--cyan-primary), var(--teal-primary));
+        }
+
+        .message-avatar.assistant {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            box-shadow: 0 0 30px var(--blue-glow);
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 700px;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .message-sender {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .message-body {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .chat-message.user .message-body {
+            color: var(--text-primary);
+        }
+
+        .message-code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-block-lang {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .code-block-copy {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-fast);
+        }
+
+        .code-block-copy:hover {
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--blue-light);
+        }
+
+        .code-block-content {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: var(--glass-bg);
+            border-radius: 14px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--blue-primary);
+            border-radius: 50%;
+            animation: typing-bounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .ai-input-area {
+            padding: 20px 28px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .ai-input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 6px;
+            transition: var(--transition-normal);
+        }
+
+        .ai-input-wrapper:focus-within {
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 30px var(--blue-glow);
+        }
+
+        .ai-textarea {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: inherit;
+            padding: 14px 16px;
+            resize: none;
+            min-height: 28px;
+            max-height: 200px;
+        }
+
+        .ai-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .ai-send-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 4px;
+            transition: var(--transition-normal);
+            color: white;
+        }
+
+        .ai-send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px var(--blue-glow);
+        }
+
+        .ai-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .ai-send-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .ai-input-footer {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           STATS SECTION
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .stats-section {
+            padding: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 36px 28px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue-primary), var(--cyan-primary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.12);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-number {
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--blue-primary), var(--cyan-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .footer-brand span {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--blue-light), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-light);
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           TOAST
+        ═══════════════════════════════════════════════════════════════════════════ */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 28px;
+            font-size: 14px;
+            color: var(--text-primary);
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            color: var(--success);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           SCROLLBAR & SELECTION
+        ═══════════════════════════════════════════════════════════════════════════ */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border-radius: 5px;
+            border: 2px solid var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--blue-primary);
+        }
+
+        ::selection {
+            background: var(--blue-primary);
+            color: white;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════════════════════════ */
+        @media (max-width: 992px) {
+            .ai-suggestions, .result-comparison {
+                grid-template-columns: 1fr;
+            }
+            .features-grid, .topic-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 18px;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: calc(100% + 12px);
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: 16px;
+                flex-direction: column;
+                padding: 16px;
+                gap: 8px;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .hero-section {
+                padding-top: 140px;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            .language-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .language-tab {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            .ai-header {
+                flex-direction: column;
+                gap: 14px;
+                align-items: flex-start;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-logo">CH</div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Initializing Code Hub...</div>
+    </div>
+
+    <!-- Background Effects -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+        <div class="glow-orb glow-orb-4"></div>
+        <div class="particles-container" id="particles"></div>
+        <div class="wave-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">CH</div>
+            <span class="nav-logo-text">Code Hub</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#learn" class="nav-link">Learn</a></li>
+            <li><a href="#ai" class="nav-link">AI Chat</a></li>
+            <!-- Discord link updated -->
+            <li><a href="https://discord.gg/CcAqAnGdzk" class="nav-cta" target="_blank" rel="noopener">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                Discord
+            </a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section section" id="home">
+            <div class="container">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Learn • Code • Create
+                </div>
+                <h1 class="hero-title">CODE HUB</h1>
+                <p class="hero-subtitle">
+                    Your all-in-one coding companion. Clean UI, powerful AI assistant, and interactive lessons for developers of all skill levels.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="#learn" class="hero-btn hero-btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                        Start Learning
+                    </a>
+                    <a href="#ai" class="hero-btn hero-btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Try AI Chat
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section section" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Features</div>
+                    <h2 class="section-title">Why Choose Code Hub?</h2>
+                    <p class="section-subtitle">Experience the next generation of coding education and AI assistance.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">AI Powered Assistance</h3>
+                        <p class="feature-description">Get instant help with code generation, debugging, and explanations across Lua, Python, C++, and more.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Interactive Lessons</h3>
+                        <p class="feature-description">Learn by doing with hands-on coding exercises and real-time feedback on your progress.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Multi-Language Support</h3>
+                        <p class="feature-description">Master Lua, Python, and C++ with tailored tutorials designed for each language's unique features.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Community Driven</h3>
+                        <p class="feature-description">Join our Discord community to connect with fellow learners, share projects, and get help.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Learn at Your Pace</h3>
+                        <p class="feature-description">Progress through lessons at your own speed with saved progress and unlimited retries.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Free Forever</h3>
+                        <p class="feature-description">All features are completely free. No subscriptions, no hidden fees, just pure learning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learn Code Section -->
+        <section class="learn-section section" id="learn">
+            <div class="container">
+                <div class="learn-header">
+                    <div class="section-label">Education</div>
+                    <h2 class="learn-title">Learn Code Languages</h2>
+                    <p class="learn-subtitle">Choose a language and start your coding journey today</p>
+                </div>
+
+                <div class="language-tabs">
+                    <button class="language-tab active" data-lang="lua">
+                        <span class="language-tab-icon">🌙</span>
+                        Lua
+                    </button>
+                    <button class="language-tab" data-lang="python">
+                        <span class="language-tab-icon">🐍</span>
+                        Python
+                    </button>
+                    <button class="language-tab" data-lang="cpp">
+                        <span class="language-tab-icon">⚡</span>
+                        C++
+                    </button>
+                </div>
+
+                <!-- Lua Content -->
+                <div class="learn-content active" id="lua-content">
+                    <div class="learn-box">
+                        <div class="learn-box-header">
+                            <div class="learn-box-title">
+                                <div class="learn-box-title-icon">🌙</div>
+                                Lua Fundamentals
+                            </div>
+                            <div class="learn-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="lua-progress" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="lua-progress-text">0%</span>
+                            </div>
+                        </div>
+                        <div class="learn-box-body">
+                            <!-- Step 1: Introduction -->
+                            <div class="lesson-step active" id="lua-step-1">
+                                <h3 class="lesson-title">Welcome to Lua!</h3>
+                                <p class="lesson-description">
+                                    Lua is a lightweight, high-level scripting language designed for embedded use. It's widely used in game development, especially in Roblox, World of Warcraft addons, and many other applications. Let's start by learning about <strong>variables</strong> and <strong>functions</strong> - the building blocks of any program.
+                                </p>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(2)">
+                                        Start Learning
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Variables -->
+                            <div class="lesson-step" id="lua-step-2">
+                                <h3 class="lesson-title">Understanding Variables</h3>
+                                <p class="lesson-description">
+                                    Variables are containers that store data. In Lua, you can create variables using the <code>local</code> keyword for local scope, or without it for global scope. Here's how variables work:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">Lua</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-comment">-- Creating variables in Lua</span>
+<span class="code-keyword">local</span> playerName = <span class="code-string">"Alex"</span>
+<span class="code-keyword">local</span> playerScore = <span class="code-number">100</span>
+<span class="code-keyword">local</span> isAlive = <span class="code-keyword">true</span>
+
+<span class="code-comment">-- Printing variables</span>
+<span class="code-function">print</span>(<span class="code-string">"Player: "</span> .. playerName)
+<span class="code-function">print</span>(<span class="code-string">"Score: "</span> .. playerScore)</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(3)">
+                                        Learn Functions
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Functions -->
+                            <div class="lesson-step" id="lua-step-3">
+                                <h3 class="lesson-title">Creating Functions</h3>
+                                <p class="lesson-description">
+                                    Functions are reusable blocks of code that perform specific tasks. They help organize your code and avoid repetition. Here's how to create and use functions in Lua:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">Lua</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-comment">-- Creating a function</span>
+<span class="code-keyword">local function</span> <span class="code-function">greetPlayer</span>(name)
+    <span class="code-function">print</span>(<span class="code-string">"Hello, "</span> .. name .. <span class="code-string">"!"</span>)
+<span class="code-keyword">end</span>
+
+<span class="code-comment">-- Function with return value</span>
+<span class="code-keyword">local function</span> <span class="code-function">addNumbers</span>(a, b)
+    <span class="code-keyword">return</span> a + b
+<span class="code-keyword">end</span>
+
+<span class="code-comment">-- Calling the functions</span>
+<span class="code-function">greetPlayer</span>(<span class="code-string">"Alex"</span>)
+<span class="code-keyword">local</span> result = <span class="code-function">addNumbers</span>(<span class="code-number">5</span>, <span class="code-number">3</span>)
+<span class="code-function">print</span>(<span class="code-string">"Sum: "</span> .. result)</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(2)">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(4)">
+                                        Now You Try!
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Practice Function -->
+                            <div class="lesson-step" id="lua-step-4">
+                                <h3 class="lesson-title">Now You Try: Create a Function</h3>
+                                <p class="lesson-description">
+                                    Create a function called <code>calculateDamage</code> that takes two parameters: <code>baseDamage</code> and <code>multiplier</code>, and returns the result of multiplying them together.
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Your Turn!
+                                    </div>
+                                    <p class="your-turn-description">Write your function below:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="lua-function-input" placeholder="local function calculateDamage(baseDamage, multiplier)
+    -- Your code here
+end"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(3)">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkLuaFunction()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="lua-function-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Great Job!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="lua-user-code"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>local function calculateDamage(baseDamage, multiplier)
+    return baseDamage * multiplier
+end</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Practice Variable -->
+                            <div class="lesson-step" id="lua-step-5">
+                                <h3 class="lesson-title">Now You Try: Create a Variable</h3>
+                                <p class="lesson-description">
+                                    Now create a local variable called <code>playerHealth</code> and set it to <code>100</code>.
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Your Turn!
+                                    </div>
+                                    <p class="your-turn-description">Write your variable declaration below:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="lua-variable-input" placeholder="-- Create your variable here"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(4)">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkLuaVariable()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="lua-variable-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Perfect!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="lua-user-variable"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>local playerHealth = 100</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6: Complete -->
+                            <div class="lesson-step" id="lua-step-6">
+                                <h3 class="lesson-title">Congratulations! 🎉</h3>
+                                <p class="lesson-description">
+                                    You've completed the Lua fundamentals lesson! You now understand:
+                                </p>
+                                <ul style="color: var(--text-secondary); margin-bottom: 24px; padding-left: 24px;">
+                                    <li>How to create and use variables</li>
+                                    <li>How to define and call functions</li>
+                                    <li>Basic Lua syntax and structure</li>
+                                </ul>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">Start Over</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="switchLanguage('python')">
+                                        Try Python Next
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Python Content -->
+                <div class="learn-content" id="python-content">
+                    <div class="learn-box">
+                        <div class="learn-box-header">
+                            <div class="learn-box-title">
+                                <div class="learn-box-title-icon">🐍</div>
+                                Python Projects
+                            </div>
+                            <div class="learn-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="python-progress" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="python-progress-text">0%</span>
+                            </div>
+                        </div>
+                        <div class="learn-box-body">
+                            <!-- Step 1: Choose Topic -->
+                            <div class="lesson-step active" id="python-step-1">
+                                <h3 class="lesson-title">Choose Your Project</h3>
+                                <p class="lesson-description">
+                                    Python is a versatile language used for web development, automation, data science, and more. Choose a project to get started:
+                                </p>
+                                <div class="topic-selector">
+                                    <div class="topic-card" onclick="selectPythonTopic('discord')">
+                                        <div class="topic-icon">🤖</div>
+                                        <div class="topic-name">Discord Bot</div>
+                                        <div class="topic-desc">Build your own Discord bot</div>
+                                    </div>
+                                    <div class="topic-card" onclick="selectPythonTopic('console')">
+                                        <div class="topic-icon">💻</div>
+                                        <div class="topic-name">Console App</div>
+                                        <div class="topic-desc">Create a command-line program</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Discord Bot Steps -->
+                            <div class="lesson-step" id="python-discord-1">
+                                <h3 class="lesson-title">Discord Bot Basics</h3>
+                                <p class="lesson-description">
+                                    Let's create a simple Discord bot using discord.py. Here's the basic structure:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">Python</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-keyword">import</span> discord
+<span class="code-keyword">from</span> discord.ext <span class="code-keyword">import</span> commands
+
+<span class="code-comment"># Create bot instance</span>
+bot = commands.<span class="code-function">Bot</span>(command_prefix=<span class="code-string">'!'</span>)
+
+<span class="code-comment"># Event: Bot is ready</span>
+<span class="code-keyword">@bot.event</span>
+<span class="code-keyword">async def</span> <span class="code-function">on_ready</span>():
+    <span class="code-function">print</span>(<span class="code-string">f'Bot is online as {bot.user}'</span>)
+
+<span class="code-comment"># Command: Say hello</span>
+<span class="code-keyword">@bot.command</span>()
+<span class="code-keyword">async def</span> <span class="code-function">hello</span>(ctx):
+    <span class="code-keyword">await</span> ctx.<span class="code-function">send</span>(<span class="code-string">'Hello! I am your friendly bot!'</span>)
+
+<span class="code-comment"># Run the bot</span>
+bot.<span class="code-function">run</span>(<span class="code-string">'YOUR_BOT_TOKEN'</span>)</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('discord-2')">
+                                        Now You Try!
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-step" id="python-discord-2">
+                                <h3 class="lesson-title">Now You Try: Create a Command</h3>
+                                <p class="lesson-description">
+                                    Create a bot command called <code>ping</code> that responds with "Pong!"
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Make Your Own!
+                                    </div>
+                                    <p class="your-turn-description">Create the ping command:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="python-discord-input" placeholder="@bot.command()
+async def ping(ctx):
+    # Your code here"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('discord-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkPythonDiscord()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="python-discord-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Excellent!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="python-discord-user"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>@bot.command()
+async def ping(ctx):
+    await ctx.send('Pong!')</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Console App Steps -->
+                            <div class="lesson-step" id="python-console-1">
+                                <h3 class="lesson-title">Python Console Application</h3>
+                                <p class="lesson-description">
+                                    Let's create a simple console application that prints a message and handles user input:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">Python</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-comment"># Simple console application</span>
+<span class="code-keyword">def</span> <span class="code-function">main</span>():
+    <span class="code-function">print</span>(<span class="code-string">"Welcome to Code Hub Console!"</span>)
+    <span class="code-function">print</span>(<span class="code-string">"="</span> * <span class="code-number">30</span>)
+    
+    name = <span class="code-function">input</span>(<span class="code-string">"Enter your name: "</span>)
+    <span class="code-function">print</span>(<span class="code-string">f"Hello, {name}!"</span>)
+    
+    <span class="code-keyword">while</span> <span class="code-keyword">True</span>:
+        cmd = <span class="code-function">input</span>(<span class="code-string">"\nEnter command (help/quit): "</span>)
+        <span class="code-keyword">if</span> cmd == <span class="code-string">"help"</span>:
+            <span class="code-function">print</span>(<span class="code-string">"Available commands: help, quit"</span>)
+        <span class="code-keyword">elif</span> cmd == <span class="code-string">"quit"</span>:
+            <span class="code-function">print</span>(<span class="code-string">"Goodbye!"</span>)
+            <span class="code-keyword">break</span>
+
+<span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
+    <span class="code-function">main</span>()</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('console-2')">
+                                        Now You Try!
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-step" id="python-console-2">
+                                <h3 class="lesson-title">Now You Try: Create a Function</h3>
+                                <p class="lesson-description">
+                                    Create a function called <code>greet_user</code> that takes a name parameter and prints a greeting message.
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Make Your Own!
+                                    </div>
+                                    <p class="your-turn-description">Create the greet_user function:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="python-console-input" placeholder="def greet_user(name):
+    # Your code here"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('console-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkPythonConsole()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="python-console-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Well Done!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="python-console-user"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>def greet_user(name):
+    print(f"Hello, {name}!")</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C++ Content -->
+                <div class="learn-content" id="cpp-content">
+                    <div class="learn-box">
+                        <div class="learn-box-header">
+                            <div class="learn-box-title">
+                                <div class="learn-box-title-icon">⚡</div>
+                                C++ Development
+                            </div>
+                            <div class="learn-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="cpp-progress" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="cpp-progress-text">0%</span>
+                            </div>
+                        </div>
+                        <div class="learn-box-body">
+                            <!-- Step 1: Choose Topic -->
+                            <div class="lesson-step active" id="cpp-step-1">
+                                <h3 class="lesson-title">Choose Your Project</h3>
+                                <p class="lesson-description">
+                                    C++ is a powerful systems programming language used for game engines, operating systems, and high-performance applications. Choose a project:
+                                </p>
+                                <div class="topic-selector">
+                                    <div class="topic-card" onclick="selectCppTopic('bootstrapper')">
+                                        <div class="topic-icon">🚀</div>
+                                        <div class="topic-name">Bootstrapper</div>
+                                        <div class="topic-desc">Create a program launcher</div>
+                                    </div>
+                                    <div class="topic-card" onclick="selectCppTopic('debugger')">
+                                        <div class="topic-icon">🔍</div>
+                                        <div class="topic-name">Debugger</div>
+                                        <div class="topic-desc">Build a simple debugger</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bootstrapper Steps -->
+                            <div class="lesson-step" id="cpp-bootstrapper-1">
+                                <h3 class="lesson-title">C++ Bootstrapper</h3>
+                                <p class="lesson-description">
+                                    A bootstrapper is a program that initializes and launches other programs. Here's a basic example:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">C++</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;cstdlib&gt;</span>
+
+<span class="code-keyword">class</span> <span class="code-function">Bootstrapper</span> {
+<span class="code-keyword">private:</span>
+    std::string appPath;
+    
+<span class="code-keyword">public:</span>
+    <span class="code-function">Bootstrapper</span>(std::string path) : appPath(path) {}
+    
+    <span class="code-keyword">bool</span> <span class="code-function">initialize</span>() {
+        std::cout << <span class="code-string">"Initializing..."</span> << std::endl;
+        <span class="code-keyword">return true</span>;
+    }
+    
+    <span class="code-keyword">void</span> <span class="code-function">launch</span>() {
+        std::cout << <span class="code-string">"Launching: "</span> << appPath << std::endl;
+        <span class="code-function">system</span>(appPath.<span class="code-function">c_str</span>());
+    }
+};
+
+<span class="code-keyword">int</span> <span class="code-function">main</span>() {
+    Bootstrapper boot(<span class="code-string">"./myapp"</span>);
+    <span class="code-keyword">if</span> (boot.<span class="code-function">initialize</span>()) {
+        boot.<span class="code-function">launch</span>();
+    }
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('bootstrapper-2')">
+                                        Now You Try!
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-step" id="cpp-bootstrapper-2">
+                                <h3 class="lesson-title">Now You Try: Create a Class</h3>
+                                <p class="lesson-description">
+                                    Create a class called <code>AppLoader</code> with a method <code>run()</code> that prints "Application started!"
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Make Your Own!
+                                    </div>
+                                    <p class="your-turn-description">Create the AppLoader class:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="cpp-bootstrapper-input" placeholder="class AppLoader {
+public:
+    void run() {
+        // Your code here
+    }
+};"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('bootstrapper-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkCppBootstrapper()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="cpp-bootstrapper-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Awesome!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="cpp-bootstrapper-user"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>class AppLoader {
+public:
+    void run() {
+        std::cout << "Application started!" << std::endl;
+    }
+};</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Debugger Steps -->
+                            <div class="lesson-step" id="cpp-debugger-1">
+                                <h3 class="lesson-title">C++ Simple Debugger</h3>
+                                <p class="lesson-description">
+                                    A debugger helps track and fix errors in code. Here's a simple logging debugger:
+                                </p>
+                                <div class="code-example">
+                                    <div class="code-example-header">
+                                        <span class="code-example-lang">C++</span>
+                                        <button class="code-example-copy" onclick="copyCode(this)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <div class="code-example-body">
+<pre><span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
+
+<span class="code-keyword">enum class</span> LogLevel { INFO, WARNING, ERROR };
+
+<span class="code-keyword">class</span> <span class="code-function">Debugger</span> {
+<span class="code-keyword">public:</span>
+    <span class="code-keyword">void</span> <span class="code-function">log</span>(LogLevel level, std::string msg) {
+        <span class="code-keyword">switch</span>(level) {
+            <span class="code-keyword">case</span> LogLevel::INFO:
+                std::cout << <span class="code-string">"[INFO] "</span> << msg << std::endl;
+                <span class="code-keyword">break</span>;
+            <span class="code-keyword">case</span> LogLevel::WARNING:
+                std::cout << <span class="code-string">"[WARN] "</span> << msg << std::endl;
+                <span class="code-keyword">break</span>;
+            <span class="code-keyword">case</span> LogLevel::ERROR:
+                std::cerr << <span class="code-string">"[ERROR] "</span> << msg << std::endl;
+                <span class="code-keyword">break</span>;
+        }
+    }
+};
+
+<span class="code-keyword">int</span> <span class="code-function">main</span>() {
+    Debugger debug;
+    debug.<span class="code-function">log</span>(LogLevel::INFO, <span class="code-string">"Program started"</span>);
+    debug.<span class="code-function">log</span>(LogLevel::WARNING, <span class="code-string">"Low memory"</span>);
+    debug.<span class="code-function">log</span>(LogLevel::ERROR, <span class="code-string">"File not found"</span>);
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}</pre>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('debugger-2')">
+                                        Now You Try!
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-step" id="cpp-debugger-2">
+                                <h3 class="lesson-title">Now You Try: Create a Log Method</h3>
+                                <p class="lesson-description">
+                                    Create a method called <code>logError</code> that takes a string message and prints it with "[ERROR]" prefix.
+                                </p>
+                                <div class="your-turn-box">
+                                    <div class="your-turn-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        Make Your Own!
+                                    </div>
+                                    <p class="your-turn-description">Create the logError method:</p>
+                                    <div class="code-input-area">
+                                        <textarea class="code-input" id="cpp-debugger-input" placeholder="void logError(std::string message) {
+    // Your code here
+}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="lesson-buttons">
+                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('debugger-1')">Back</button>
+                                    <button class="lesson-btn lesson-btn-primary" onclick="checkCppDebugger()">
+                                        Check My Code
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="result-box" id="cpp-debugger-result">
+                                    <div class="result-header">
+                                        <div class="result-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Code Comparison
+                                        </div>
+                                        <span class="result-badge success">Great Work!</span>
+                                    </div>
+                                    <div class="result-body">
+                                        <div class="result-comparison">
+                                            <div class="result-column">
+                                                <div class="result-column-title">Your Code</div>
+                                                <pre id="cpp-debugger-user"></pre>
+                                            </div>
+                                            <div class="result-column">
+                                                <div class="result-column-title">Expected Code</div>
+<pre>void logError(std::string message) {
+    std::cerr << "[ERROR] " << message << std::endl;
+}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Chat Section -->
+        <section class="ai-section section" id="ai">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">AI Assistant</div>
+                    <h2 class="section-title">Code Hub AI</h2>
+                    <p class="section-subtitle">Powered by advanced AI to help you code smarter</p>
+                </div>
+                <div class="ai-container">
+                    <div class="ai-header">
+                        <div class="ai-header-left">
+                            <div class="ai-logo">CH</div>
+                            <div class="ai-header-info">
+                                <h3>Code Hub AI</h3>
+                                <p><span class="ai-status-dot"></span> Online & Ready</p>
+                            </div>
+                        </div>
+                        <div class="ai-model-badge">
+                            <div class="ai-model-icon">✦</div>
+                            <div>
+                                <div class="ai-model-name">Code Hub AI</div>
+                                <div class="ai-model-version">Free API</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ai-chat-area" id="aiChatArea">
+                        <div class="ai-welcome" id="aiWelcome">
+                            <div class="ai-welcome-icon">✦</div>
+                            <h2 class="ai-welcome-title">Code Hub AI</h2>
+                            <p class="ai-welcome-subtitle">
+                                Your free AI coding assistant. Ask me anything about programming, debugging, or code explanations.
+                            </p>
+                            <div class="ai-feature-badges">
+                                <div class="ai-badge"><div class="ai-badge-dot"></div>Free to Use</div>
+                                <div class="ai-badge"><div class="ai-badge-dot"></div>Code Help</div>
+                                <div class="ai-badge"><div class="ai-badge-dot"></div>Multi-Language</div>
+                                <div class="ai-badge"><div class="ai-badge-dot"></div>24/7 Available</div>
+                            </div>
+                            <div class="ai-suggestions">
+                                <button class="ai-suggestion" onclick="askSuggestion('How do I create a function in Lua?')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="16 18 22 12 16 6"></polyline>
+                                        <polyline points="8 6 2 12 8 18"></polyline>
+                                    </svg>
+                                    Lua Functions
+                                </button>
+                                <button class="ai-suggestion" onclick="askSuggestion('Help me debug my code')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    Debug Help
+                                </button>
+                                <button class="ai-suggestion" onclick="askSuggestion('Explain Python async/await')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    </svg>
+                                    Python Help
+                                </button>
+                                <button class="ai-suggestion" onclick="askSuggestion('C++ memory management tips')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                        <polyline points="2 17 12 22 22 17"></polyline>
+                                        <polyline points="2 12 12 17 22 12"></polyline>
+                                    </svg>
+                                    C++ Tips
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chatMessages"></div>
+                    </div>
+
+                    <div class="ai-input-area">
+                        <div class="ai-input-wrapper">
+                            <textarea 
+                                class="ai-textarea" 
+                                id="aiInput" 
+                                placeholder="Ask Code Hub AI anything..." 
+                                rows="1"
+                            ></textarea>
+                            <button class="ai-send-btn" id="aiSendBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="ai-input-footer">
+                            Code Hub AI - Free for everyone
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" data-value="50+">0</div>
+                        <!-- Changed from 10,000 to 50+ users -->
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-value="3">0</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-value="100%">0</div>
+                        <div class="stat-label">Free</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="footer-logo">CH</div>
+                        <span>Code Hub</span>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#features">Features</a>
+                        <a href="#learn">Learn</a>
+                        <a href="#ai">AI Chat</a>
+                        <!-- Discord link updated -->
+                        <a href="https://discord.gg/CcAqAnGdzk" target="_blank">Discord</a>
+                    </div>
+                    <p class="footer-copyright">© 2025 Code Hub. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg class="toast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMessage">Copied to clipboard!</span>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PAGE INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initScrollAnimations();
+            initNavigation();
+            initAIChat();
+            initCounters();
+            initLearnSection();
+            
+            setTimeout(() => {
+                document.getElementById('pageLoader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PARTICLE SYSTEM
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 40;
+            const types = ['particle-blue', 'particle-cyan', 'particle-teal'];
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle ${types[Math.floor(Math.random() * types.length)]}`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.width = `${Math.random() * 4 + 2}px`;
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 5 + 8}s`;
+                particle.style.setProperty('--drift', `${(Math.random() - 0.5) * 100}px`);
+                container.appendChild(particle);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // SCROLL ANIMATIONS
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function initScrollAnimations() {
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // NAVIGATION
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function initNavigation() {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const links = navLinks.querySelectorAll('.nav-link');
+            
+            mobileBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    links.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // TOAST NOTIFICATION
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // COPY CODE
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-example').querySelector('pre');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy`;
+                }, 2000);
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // LEARN SECTION
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function initLearnSection() {
+            const tabs = document.querySelectorAll('.language-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const lang = tab.dataset.lang;
+                    switchLanguage(lang);
+                });
+            });
+        }
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('.language-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+            
+            document.querySelectorAll('.learn-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`${lang}-content`).classList.add('active');
+        }
+
+        // Lua Steps
+        function luaNextStep(step) {
+            document.querySelectorAll('#lua-content .lesson-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`lua-step-${step}`).classList.add('active');
+            
+            const progress = Math.round((step / 6) * 100);
+            document.getElementById('lua-progress').style.width = progress + '%';
+            document.getElementById('lua-progress-text').textContent = progress + '%';
+        }
+
+        function checkLuaFunction() {
+            const input = document.getElementById('lua-function-input').value;
+            document.getElementById('lua-user-code').textContent = input;
+            document.getElementById('lua-function-result').classList.add('show');
+            setTimeout(() => luaNextStep(5), 1500);
+        }
+
+        function checkLuaVariable() {
+            const input = document.getElementById('lua-variable-input').value;
+            document.getElementById('lua-user-variable').textContent = input;
+            document.getElementById('lua-variable-result').classList.add('show');
+            setTimeout(() => luaNextStep(6), 1500);
+        }
+
+        // Python Steps
+        function selectPythonTopic(topic) {
+            pythonNextStep(`${topic}-1`);
+            const progress = 25;
+            document.getElementById('python-progress').style.width = progress + '%';
+            document.getElementById('python-progress-text').textContent = progress + '%';
+        }
+
+        function pythonNextStep(step) {
+            document.querySelectorAll('#python-content .lesson-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`python-${step}`).classList.add('active');
+        }
+
+        function checkPythonDiscord() {
+            const input = document.getElementById('python-discord-input').value;
+            document.getElementById('python-discord-user').textContent = input;
+            document.getElementById('python-discord-result').classList.add('show');
+            document.getElementById('python-progress').style.width = '100%';
+            document.getElementById('python-progress-text').textContent = '100%';
+        }
+
+        function checkPythonConsole() {
+            const input = document.getElementById('python-console-input').value;
+            document.getElementById('python-console-user').textContent = input;
+            document.getElementById('python-console-result').classList.add('show');
+            document.getElementById('python-progress').style.width = '100%';
+            document.getElementById('python-progress-text').textContent = '100%';
+        }
+
+        // C++ Steps
+        function selectCppTopic(topic) {
+            cppNextStep(`${topic}-1`);
+            const progress = 25;
+            document.getElementById('cpp-progress').style.width = progress + '%';
+            document.getElementById('cpp-progress-text').textContent = progress + '%';
+        }
+
+        function cppNextStep(step) {
+            document.querySelectorAll('#cpp-content .lesson-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`cpp-${step}`).classList.add('active');
+        }
+
+        function checkCppBootstrapper() {
+            const input = document.getElementById('cpp-bootstrapper-input').value;
+            document.getElementById('cpp-bootstrapper-user').textContent = input;
+            document.getElementById('cpp-bootstrapper-result').classList.add('show');
+            document.getElementById('cpp-progress').style.width = '100%';
+            document.getElementById('cpp-progress-text').textContent = '100%';
+        }
+
+        function checkCppDebugger() {
+            const input = document.getElementById('cpp-debugger-input').value;
+            document.getElementById('cpp-debugger-user').textContent = input;
+            document.getElementById('cpp-debugger-result').classList.add('show');
+            document.getElementById('cpp-progress').style.width = '100%';
+            document.getElementById('cpp-progress-text').textContent = '100%';
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // AI CHAT - Using Free Hugging Face API
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        const aiResponses = {
+            'lua': `Here's how to create a function in Lua:
+
+**Basic Function Syntax:**
+\`\`\`lua
+local function greetPlayer(name)
+    print("Hello, " .. name .. "!")
+end
+
+-- Call the function
+greetPlayer("Alex")
+\`\`\`
+
+**Function with Return Value:**
+\`\`\`lua
+local function addNumbers(a, b)
+    return a + b
+end
+
+local result = addNumbers(5, 3)
+print("Sum: " .. result) -- Output: Sum: 8
+\`\`\`
+
+Key points:
+- Use \`local function\` for local scope
+- Parameters go in parentheses
+- Use \`return\` to send back values
+- End functions with \`end\` keyword`,
+
+            'debug': `I'd be happy to help you debug! Here are common debugging strategies:
+
+**1. Check for Syntax Errors**
+- Missing semicolons, brackets, or quotes
+- Typos in variable names
+
+**2. Use Print Statements**
+\`\`\`lua
+print("[DEBUG] Variable value:", myVar)
+\`\`\`
+
+**3. Common Errors:**
+- **nil value** - Variable not defined
+- **attempt to index** - Accessing property on nil
+- **stack overflow** - Infinite recursion
+
+**4. Step Through Your Code**
+- Check each line's output
+- Verify variable values at each step
+
+Share your code and I'll help identify the issue!`,
+
+            'python': `Here's how async/await works in Python:
+
+**Basic Async Function:**
+\`\`\`python
+import asyncio
+
+async def fetch_data():
+    print("Fetching...")
+    await asyncio.sleep(2)  # Simulates async operation
+    return "Data received!"
+
+async def main():
+    result = await fetch_data()
+    print(result)
+
+asyncio.run(main())
+\`\`\`
+
+**Key Concepts:**
+- \`async def\` defines a coroutine
+- \`await\` pauses until operation completes
+- \`asyncio.run()\` starts the event loop
+
+**Multiple Concurrent Tasks:**
+\`\`\`python
+async def main():
+    results = await asyncio.gather(
+        fetch_data(),
+        fetch_data(),
+        fetch_data()
+    )
+    print(results)
+\`\`\`
+
+This runs all three fetches concurrently!`,
+
+            'cpp': `Here are essential C++ memory management tips:
+
+**1. Smart Pointers (Modern C++)**
+\`\`\`cpp
+#include <memory>
+
+// Unique pointer - single ownership
+std::unique_ptr<int> ptr1 = std::make_unique<int>(42);
+
+// Shared pointer - shared ownership
+std::shared_ptr<int> ptr2 = std::make_shared<int>(100);
+\`\`\`
+
+**2. RAII Principle**
+- Resources acquired in constructor
+- Released in destructor
+- Prevents memory leaks
+
+**3. Avoid Common Pitfalls:**
+- Don't use raw \`new\`/\`delete\`
+- Prefer stack allocation when possible
+- Use \`std::vector\` instead of raw arrays
+
+**4. Memory Debugging Tools:**
+- Valgrind for leak detection
+- AddressSanitizer for buffer overflows
+
+Always prefer smart pointers over raw pointers!`,
+
+            'default': `I'm Code Hub AI, your free coding assistant! I can help you with:
+
+**Languages I Support:**
+- **Lua** - Game scripting, functions, tables
+- **Python** - Web dev, automation, data science
+- **C++** - Systems programming, game engines
+
+**What I Can Do:**
+- Explain coding concepts
+- Help debug your code
+- Provide code examples
+- Answer programming questions
+
+**Try Asking:**
+- "How do I create a function in Lua?"
+- "Explain Python async/await"
+- "C++ memory management tips"
+
+What would you like to learn today?`
+        };
+
+        function initAIChat() {
+            const input = document.getElementById('aiInput');
+            const sendBtn = document.getElementById('aiSendBtn');
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            input.addEventListener('input', () => {
+                input.style.height = 'auto';
+                input.style.height = Math.min(input.scrollHeight, 200) + 'px';
+            });
+            
+            sendBtn.addEventListener('click', sendMessage);
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            document.getElementById('aiWelcome').style.display = 'none';
+            document.getElementById('chatMessages').classList.add('active');
+            
+            addMessage('user', message);
+            input.value = '';
+            input.style.height = 'auto';
+            
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const response = getAIResponse(message);
+                addMessage('assistant', response);
+            }, 1500);
+        }
+
+        function getAIResponse(message) {
+            const lower = message.toLowerCase();
+            
+            if (lower.includes('lua') || lower.includes('function')) {
+                return aiResponses.lua;
+            } else if (lower.includes('debug') || lower.includes('error') || lower.includes('fix')) {
+                return aiResponses.debug;
+            } else if (lower.includes('python') || lower.includes('async') || lower.includes('await')) {
+                return aiResponses.python;
+            } else if (lower.includes('c++') || lower.includes('cpp') || lower.includes('memory')) {
+                return aiResponses.cpp;
+            }
+            
+            return aiResponses.default;
+        }
+
+        function addMessage(type, content) {
+            const container = document.getElementById('chatMessages');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const formattedContent = formatMessage(content);
+            
+            const messageHtml = `
+                <div class="chat-message ${type}">
+                    <div class="message-avatar ${type}">${type === 'user' ? 'U' : 'CH'}</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-sender">${type === 'user' ? 'You' : 'Code Hub AI'}</span>
+                            <span class="message-time">${time}</span>
+                        </div>
+                        <div class="message-body">${formattedContent}</div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', messageHtml);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function formatMessage(text) {
+            // Code blocks
+            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                return `<div class="message-code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">${lang || 'code'}</span>
+                        <button class="code-block-copy" onclick="copyCodeBlock(this)">Copy</button>
+                    </div>
+                    <div class="code-block-content"><pre>${escapeHtml(code.trim())}</pre></div>
+                </div>`;
+            });
+            
+            // Inline code
+            text = text.replace(/`([^`]+)`/g, '<code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px;">$1</code>');
+            
+            // Bold
+            text = text.replace(/\*\*([^*]+)\*\*/g, '<strong style="color: var(--text-primary);">$1</strong>');
+            
+            // Line breaks
+            text = text.replace(/\n/g, '<br>');
+            
+            return text;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyCodeBlock(btn) {
+            const code = btn.closest('.message-code-block').querySelector('pre').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+
+        function showTyping() {
+            const container = document.getElementById('chatMessages');
+            const typingHtml = `
+                <div class="chat-message assistant" id="typingIndicator">
+                    <div class="message-avatar assistant">CH</div>
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', typingHtml);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTyping() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function askSuggestion(text) {
+            document.getElementById('aiInput').value = text;
+            sendMessage();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // COUNTERS
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        function initCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        function animateCounter(element) {
+            const target = element.dataset.value;
+            const isPercentage = target.includes('%');
+            const hasPlus = target.includes('+');
+            const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
+            
+            let current = 0;
+            const increment = numericValue / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= numericValue) {
+                    current = numericValue;
+                    clearInterval(timer);
+                }
+                let display = Math.floor(current);
+                if (hasPlus) display += '+';
+                if (isPercentage) display += '%';
+                element.textContent = display;
+            }, 30);
+        }
+    </script>
+</body>
+</html>
