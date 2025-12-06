@@ -714,7 +714,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════
-           LEARN CODE SECTION
+           LEARN CODE SECTION WITH HINT SIDEBAR
         ═══════════════════════════════════════════════════════════════════════════ */
         .learn-section {
             padding: 100px 0;
@@ -790,13 +790,256 @@
             display: block;
         }
 
+        /* New layout with hint sidebar */
+        .learn-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .learn-layout {
+                grid-template-columns: 1fr;
+            }
+            .hint-sidebar {
+                order: -1;
+            }
+        }
+
         .learn-box {
             background: var(--bg-card);
             border-radius: 24px;
             border: 1px solid var(--border-color);
             overflow: hidden;
-            max-width: 900px;
-            margin: 0 auto;
+        }
+
+        /* Hint Sidebar Styles */
+        .hint-sidebar {
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
+        .hint-sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hint-sidebar-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--teal-primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .hint-sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .hint-sidebar-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .hint-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+            transition: var(--transition-normal);
+            animation: hint-slide-in 0.4s ease;
+        }
+
+        @keyframes hint-slide-in {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .hint-card:hover {
+            border-color: var(--blue-primary);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .hint-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hint-card-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .hint-card-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hint-card-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .hint-card-content code {
+            background: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--cyan-primary);
+        }
+
+        /* Hint Button Styles */
+        .hint-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid var(--cyan-primary);
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan-primary);
+            transition: var(--transition-normal);
+            margin-right: 10px;
+        }
+
+        .hint-btn:hover {
+            background: var(--cyan-primary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 30px var(--cyan-glow);
+            transform: translateY(-2px);
+        }
+
+        .hint-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hint-btn.used {
+            border-color: var(--text-muted);
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        /* Suggestion Toast (appears when typing) */
+        .suggestion-toast {
+            position: fixed;
+            bottom: 120px;
+            right: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--cyan-primary);
+            border-radius: 16px;
+            padding: 16px 20px;
+            max-width: 320px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px rgba(34, 211, 238, 0.2);
+            pointer-events: none;
+        }
+
+        .suggestion-toast.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .suggestion-toast-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .suggestion-toast-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--teal-primary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--cyan-glow); }
+            50% { box-shadow: 0 0 25px var(--cyan-glow); }
+        }
+
+        .suggestion-toast-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--cyan-primary);
+        }
+
+        .suggestion-toast-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .suggestion-toast-content strong {
+            color: var(--text-primary);
+        }
+
+        .suggestion-toast-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+
+        .suggestion-toast-close:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         .learn-box-header {
@@ -981,6 +1224,12 @@
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 16px;
+            transition: var(--transition-normal);
+        }
+
+        .code-input-area:focus-within {
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 30px var(--blue-glow);
         }
 
         .code-input {
@@ -1912,6 +2161,11 @@
                 gap: 16px;
                 text-align: center;
             }
+            .hint-sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
         }
     </style>
 </head>
@@ -1937,6 +2191,23 @@
         </div>
     </div>
 
+    <!-- Suggestion Toast (appears when coding) -->
+    <div class="suggestion-toast" id="suggestionToast">
+        <button class="suggestion-toast-close" onclick="closeSuggestionToast()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="suggestion-toast-header">
+            <div class="suggestion-toast-icon">💡</div>
+            <span class="suggestion-toast-title">Suggestion</span>
+        </div>
+        <div class="suggestion-toast-content" id="suggestionToastContent">
+            Maybe try adding <strong>a return statement</strong> to your function!
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <a href="#" class="nav-logo">
@@ -1955,7 +2226,6 @@
             <li><a href="#features" class="nav-link">Features</a></li>
             <li><a href="#learn" class="nav-link">Learn</a></li>
             <li><a href="#ai" class="nav-link">AI Chat</a></li>
-            <!-- Discord link updated -->
             <li><a href="https://discord.gg/CcAqAnGdzk" class="nav-cta" target="_blank" rel="noopener">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
@@ -1988,9 +2258,11 @@
                     </a>
                     <a href="#ai" class="hero-btn hero-btn-secondary">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        Try AI Chat
+                        Ask AI
                     </a>
                 </div>
             </div>
@@ -2001,19 +2273,10 @@
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">Features</div>
-                    <h2 class="section-title">Why Choose Code Hub?</h2>
-                    <p class="section-subtitle">Experience the next generation of coding education and AI assistance.</p>
+                    <h2 class="section-title">Why Code Hub?</h2>
+                    <p class="section-subtitle">Everything you need to learn coding effectively</p>
                 </div>
                 <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">AI Powered Assistance</h3>
-                        <p class="feature-description">Get instant help with code generation, debugging, and explanations across Lua, Python, C++, and more.</p>
-                    </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2022,59 +2285,41 @@
                             </svg>
                         </div>
                         <h3 class="feature-title">Interactive Lessons</h3>
-                        <p class="feature-description">Learn by doing with hands-on coding exercises and real-time feedback on your progress.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="16 18 22 12 16 6"></polyline>
-                                <polyline points="8 6 2 12 8 18"></polyline>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Multi-Language Support</h3>
-                        <p class="feature-description">Master Lua, Python, and C++ with tailored tutorials designed for each language's unique features.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Community Driven</h3>
-                        <p class="feature-description">Join our Discord community to connect with fellow learners, share projects, and get help.</p>
+                        <p class="feature-description">Learn Lua, Python, and C++ with hands-on coding exercises and real-time feedback.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
                             </svg>
                         </div>
-                        <h3 class="feature-title">Learn at Your Pace</h3>
-                        <p class="feature-description">Progress through lessons at your own speed with saved progress and unlimited retries.</p>
+                        <h3 class="feature-title">AI Assistant</h3>
+                        <p class="feature-description">Get instant help from our AI that understands code and provides detailed explanations.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
                             </svg>
                         </div>
-                        <h3 class="feature-title">Free Forever</h3>
-                        <p class="feature-description">All features are completely free. No subscriptions, no hidden fees, just pure learning.</p>
+                        <h3 class="feature-title">Smart Hints</h3>
+                        <p class="feature-description">Context-aware suggestions help you learn the right way with personalized guidance.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Learn Code Section -->
+        <!-- Learn Section -->
         <section class="learn-section section" id="learn">
             <div class="container">
                 <div class="learn-header">
                     <div class="section-label">Education</div>
                     <h2 class="learn-title">Learn Code Languages</h2>
-                    <p class="learn-subtitle">Choose a language and start your coding journey today</p>
+                    <p class="learn-subtitle">Master programming with interactive lessons and hands-on practice</p>
                 </div>
 
                 <div class="language-tabs">
@@ -2092,497 +2337,613 @@
                     </button>
                 </div>
 
-                <!-- Lua Content -->
+                <!-- LUA CONTENT -->
                 <div class="learn-content active" id="lua-content">
-                    <div class="learn-box">
-                        <div class="learn-box-header">
-                            <div class="learn-box-title">
-                                <div class="learn-box-title-icon">🌙</div>
-                                Lua Fundamentals
-                            </div>
-                            <div class="learn-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="lua-progress" style="width: 0%"></div>
+                    <div class="learn-layout">
+                        <div class="learn-box">
+                            <div class="learn-box-header">
+                                <div class="learn-box-title">
+                                    <div class="learn-box-title-icon">🌙</div>
+                                    Lua Fundamentals
                                 </div>
-                                <span class="progress-text" id="lua-progress-text">0%</span>
-                            </div>
-                        </div>
-                        <div class="learn-box-body">
-                            <!-- Step 1: Introduction -->
-                            <div class="lesson-step active" id="lua-step-1">
-                                <h3 class="lesson-title">Welcome to Lua!</h3>
-                                <p class="lesson-description">
-                                    Lua is a lightweight, high-level scripting language designed for embedded use. It's widely used in game development, especially in Roblox, World of Warcraft addons, and many other applications. Let's start by learning about <strong>variables</strong> and <strong>functions</strong> - the building blocks of any program.
-                                </p>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(2)">
-                                        Start Learning
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
+                                <div class="learn-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="lua-progress" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text" id="lua-progress-text">0%</span>
                                 </div>
                             </div>
-
-                            <!-- Step 2: Variables -->
-                            <div class="lesson-step" id="lua-step-2">
-                                <h3 class="lesson-title">Understanding Variables</h3>
-                                <p class="lesson-description">
-                                    Variables are containers that store data. In Lua, you can create variables using the <code>local</code> keyword for local scope, or without it for global scope. Here's how variables work:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">Lua</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            <div class="learn-box-body">
+                                <!-- Step 1: Welcome -->
+                                <div class="lesson-step active" id="lua-step-1">
+                                    <h3 class="lesson-title">Welcome to Lua!</h3>
+                                    <p class="lesson-description">
+                                        Lua is a lightweight, powerful scripting language used in game development, embedded systems, and more. Let's start by learning about variables and functions - the building blocks of any program.
+                                    </p>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(2)">
+                                            Start Learning Lua
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
                                             </svg>
-                                            Copy
                                         </button>
                                     </div>
-                                    <div class="code-example-body">
-<pre><span class="code-comment">-- Creating variables in Lua</span>
+                                </div>
+
+                                <!-- Step 2: Variables -->
+                                <div class="lesson-step" id="lua-step-2">
+                                    <h3 class="lesson-title">Variables in Lua</h3>
+                                    <p class="lesson-description">
+                                        Variables store data that you can use later. In Lua, you create variables using the <code>local</code> keyword for local scope (recommended) or without it for global scope.
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">Lua</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
+<pre><span class="code-comment">-- String variable</span>
 <span class="code-keyword">local</span> playerName = <span class="code-string">"Alex"</span>
+
+<span class="code-comment">-- Number variable</span>
 <span class="code-keyword">local</span> playerScore = <span class="code-number">100</span>
+
+<span class="code-comment">-- Boolean variable</span>
 <span class="code-keyword">local</span> isAlive = <span class="code-keyword">true</span>
 
-<span class="code-comment">-- Printing variables</span>
-<span class="code-function">print</span>(<span class="code-string">"Player: "</span> .. playerName)
+<span class="code-comment">-- Print the values</span>
+<span class="code-function">print</span>(<span class="code-string">"Name: "</span> .. playerName)
 <span class="code-function">print</span>(<span class="code-string">"Score: "</span> .. playerScore)</pre>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(3)">
-                                        Learn Functions
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Step 3: Functions -->
-                            <div class="lesson-step" id="lua-step-3">
-                                <h3 class="lesson-title">Creating Functions</h3>
-                                <p class="lesson-description">
-                                    Functions are reusable blocks of code that perform specific tasks. They help organize your code and avoid repetition. Here's how to create and use functions in Lua:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">Lua</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(3)">
+                                            Learn Functions
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
                                             </svg>
-                                            Copy
                                         </button>
                                     </div>
-                                    <div class="code-example-body">
-<pre><span class="code-comment">-- Creating a function</span>
+                                </div>
+
+                                <!-- Step 3: Functions -->
+                                <div class="lesson-step" id="lua-step-3">
+                                    <h3 class="lesson-title">Functions in Lua</h3>
+                                    <p class="lesson-description">
+                                        Functions are reusable blocks of code that perform specific tasks. They can take parameters (inputs) and return values (outputs).
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">Lua</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
+<pre><span class="code-comment">-- Function that takes a name and greets</span>
 <span class="code-keyword">local function</span> <span class="code-function">greetPlayer</span>(name)
     <span class="code-function">print</span>(<span class="code-string">"Hello, "</span> .. name .. <span class="code-string">"!"</span>)
 <span class="code-keyword">end</span>
 
-<span class="code-comment">-- Function with return value</span>
+<span class="code-comment">-- Function that adds two numbers</span>
 <span class="code-keyword">local function</span> <span class="code-function">addNumbers</span>(a, b)
     <span class="code-keyword">return</span> a + b
 <span class="code-keyword">end</span>
 
-<span class="code-comment">-- Calling the functions</span>
+<span class="code-comment">-- Call the functions</span>
 <span class="code-function">greetPlayer</span>(<span class="code-string">"Alex"</span>)
-<span class="code-keyword">local</span> result = <span class="code-function">addNumbers</span>(<span class="code-number">5</span>, <span class="code-number">3</span>)
-<span class="code-function">print</span>(<span class="code-string">"Sum: "</span> .. result)</pre>
+<span class="code-keyword">local</span> sum = <span class="code-function">addNumbers</span>(<span class="code-number">5</span>, <span class="code-number">3</span>)
+<span class="code-function">print</span>(<span class="code-string">"Sum: "</span> .. sum)</pre>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(2)">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(4)">
+                                            Now You Try!
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(2)">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="luaNextStep(4)">
-                                        Now You Try!
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <!-- Step 4: Practice Function -->
-                            <div class="lesson-step" id="lua-step-4">
-                                <h3 class="lesson-title">Now You Try: Create a Function</h3>
-                                <p class="lesson-description">
-                                    Create a function called <code>calculateDamage</code> that takes two parameters: <code>baseDamage</code> and <code>multiplier</code>, and returns the result of multiplying them together.
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Your Turn!
-                                    </div>
-                                    <p class="your-turn-description">Write your function below:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="lua-function-input" placeholder="local function calculateDamage(baseDamage, multiplier)
+                                <!-- Step 4: Practice Function -->
+                                <div class="lesson-step" id="lua-step-4">
+                                    <h3 class="lesson-title">Now You Try: Create a Function</h3>
+                                    <p class="lesson-description">
+                                        Create a function called <code>multiplyNumbers</code> that takes two parameters and returns their product (multiplication).
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Write your function below:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="lua-function-input" placeholder="local function multiplyNumbers(a, b)
     -- Your code here
-end"></textarea>
+end" oninput="checkLuaFunctionInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(3)">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkLuaFunction()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="lua-function-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="lua-func-hint-btn" onclick="showLuaFunctionHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(3)">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkLuaFunction()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Great Job!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="lua-user-code"></pre>
+                                    <div class="result-box" id="lua-function-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
-<pre>local function calculateDamage(baseDamage, multiplier)
-    return baseDamage * multiplier
+                                            <span class="result-badge success">Great Job!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="lua-user-code"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Code</div>
+<pre>local function multiplyNumbers(a, b)
+    return a * b
 end</pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Step 5: Practice Variable -->
-                            <div class="lesson-step" id="lua-step-5">
-                                <h3 class="lesson-title">Now You Try: Create a Variable</h3>
-                                <p class="lesson-description">
-                                    Now create a local variable called <code>playerHealth</code> and set it to <code>100</code>.
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Your Turn!
+                                <!-- Step 5: Practice Variable -->
+                                <div class="lesson-step" id="lua-step-5">
+                                    <h3 class="lesson-title">Now You Try: Create a Variable</h3>
+                                    <p class="lesson-description">
+                                        Create a local variable called <code>myAge</code> and set it to your age (any number).
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Create a variable below:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="lua-variable-input" placeholder="-- Create your variable here" oninput="checkLuaVariableInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                    <p class="your-turn-description">Write your variable declaration below:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="lua-variable-input" placeholder="-- Create your variable here"></textarea>
-                                    </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(4)">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkLuaVariable()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="lua-variable-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="lua-var-hint-btn" onclick="showLuaVariableHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(4)">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkLuaVariable()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Perfect!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="lua-user-variable"></pre>
+                                    <div class="result-box" id="lua-variable-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
-<pre>local playerHealth = 100</pre>
+                                            <span class="result-badge success">Well Done!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="lua-user-variable"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Format</div>
+<pre>local myAge = 18</pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Step 6: Complete -->
-                            <div class="lesson-step" id="lua-step-6">
-                                <h3 class="lesson-title">Congratulations! 🎉</h3>
-                                <p class="lesson-description">
-                                    You've completed the Lua fundamentals lesson! You now understand:
-                                </p>
-                                <ul style="color: var(--text-secondary); margin-bottom: 24px; padding-left: 24px;">
-                                    <li>How to create and use variables</li>
-                                    <li>How to define and call functions</li>
-                                    <li>Basic Lua syntax and structure</li>
-                                </ul>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">Start Over</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="switchLanguage('python')">
-                                        Try Python Next
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
+                                <!-- Step 6: Complete -->
+                                <div class="lesson-step" id="lua-step-6">
+                                    <h3 class="lesson-title">Congratulations! 🎉</h3>
+                                    <p class="lesson-description">
+                                        You've completed the Lua fundamentals lesson! You now know how to create variables and functions in Lua. Keep practicing and try the other languages!
+                                    </p>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="luaNextStep(1)">
+                                            Start Over
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="switchLanguage('python')">
+                                            Try Python
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hint Sidebar for Lua -->
+                        <div class="hint-sidebar" id="lua-hint-sidebar">
+                            <div class="hint-sidebar-header">
+                                <div class="hint-sidebar-icon">💡</div>
+                                <div>
+                                    <div class="hint-sidebar-title">Hints & Tips</div>
+                                    <div class="hint-sidebar-subtitle">Lua Language</div>
+                                </div>
+                            </div>
+                            <div id="lua-hints-container">
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">📝</div>
+                                        <span class="hint-card-type">Getting Started</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Welcome! As you work through exercises, contextual hints will appear here to help guide you.
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">🔑</div>
+                                        <span class="hint-card-type">Key Concept</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        In Lua, use <code>local</code> before variable names for local scope. This is best practice!
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">⚡</div>
+                                        <span class="hint-card-type">Quick Tip</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Use <code>..</code> to concatenate (join) strings in Lua. Example: <code>"Hello " .. name</code>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Python Content -->
+                <!-- PYTHON CONTENT -->
                 <div class="learn-content" id="python-content">
-                    <div class="learn-box">
-                        <div class="learn-box-header">
-                            <div class="learn-box-title">
-                                <div class="learn-box-title-icon">🐍</div>
-                                Python Projects
-                            </div>
-                            <div class="learn-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="python-progress" style="width: 0%"></div>
+                    <div class="learn-layout">
+                        <div class="learn-box">
+                            <div class="learn-box-header">
+                                <div class="learn-box-title">
+                                    <div class="learn-box-title-icon">🐍</div>
+                                    Python Projects
                                 </div>
-                                <span class="progress-text" id="python-progress-text">0%</span>
-                            </div>
-                        </div>
-                        <div class="learn-box-body">
-                            <!-- Step 1: Choose Topic -->
-                            <div class="lesson-step active" id="python-step-1">
-                                <h3 class="lesson-title">Choose Your Project</h3>
-                                <p class="lesson-description">
-                                    Python is a versatile language used for web development, automation, data science, and more. Choose a project to get started:
-                                </p>
-                                <div class="topic-selector">
-                                    <div class="topic-card" onclick="selectPythonTopic('discord')">
-                                        <div class="topic-icon">🤖</div>
-                                        <div class="topic-name">Discord Bot</div>
-                                        <div class="topic-desc">Build your own Discord bot</div>
+                                <div class="learn-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="python-progress" style="width: 0%"></div>
                                     </div>
-                                    <div class="topic-card" onclick="selectPythonTopic('console')">
-                                        <div class="topic-icon">💻</div>
-                                        <div class="topic-name">Console App</div>
-                                        <div class="topic-desc">Create a command-line program</div>
-                                    </div>
+                                    <span class="progress-text" id="python-progress-text">0%</span>
                                 </div>
                             </div>
+                            <div class="learn-box-body">
+                                <!-- Step 1: Choose Topic -->
+                                <div class="lesson-step active" id="python-step-1">
+                                    <h3 class="lesson-title">Choose Your Project</h3>
+                                    <p class="lesson-description">
+                                        Python is versatile and beginner-friendly. Choose a project to learn Python through hands-on coding:
+                                    </p>
+                                    <div class="topic-selector">
+                                        <div class="topic-card" onclick="selectPythonTopic('discord')">
+                                            <div class="topic-icon">🤖</div>
+                                            <div class="topic-name">Discord Bot</div>
+                                            <div class="topic-desc">Build a simple bot</div>
+                                        </div>
+                                        <div class="topic-card" onclick="selectPythonTopic('console')">
+                                            <div class="topic-icon">💻</div>
+                                            <div class="topic-name">Console App</div>
+                                            <div class="topic-desc">Create a command tool</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <!-- Discord Bot Steps -->
-                            <div class="lesson-step" id="python-discord-1">
-                                <h3 class="lesson-title">Discord Bot Basics</h3>
-                                <p class="lesson-description">
-                                    Let's create a simple Discord bot using discord.py. Here's the basic structure:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">Python</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                            Copy
-                                        </button>
-                                    </div>
-                                    <div class="code-example-body">
+                                <!-- Discord Bot Steps -->
+                                <div class="lesson-step" id="python-discord-1">
+                                    <h3 class="lesson-title">Discord Bot Basics</h3>
+                                    <p class="lesson-description">
+                                        Discord bots respond to messages and commands. Here's a simple bot structure using discord.py:
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">Python</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
 <pre><span class="code-keyword">import</span> discord
 <span class="code-keyword">from</span> discord.ext <span class="code-keyword">import</span> commands
 
 <span class="code-comment"># Create bot instance</span>
 bot = commands.<span class="code-function">Bot</span>(command_prefix=<span class="code-string">'!'</span>)
 
-<span class="code-comment"># Event: Bot is ready</span>
-<span class="code-keyword">@bot.event</span>
+<span class="code-comment"># Event: When bot is ready</span>
+<span class="code-keyword">@</span>bot.event
 <span class="code-keyword">async def</span> <span class="code-function">on_ready</span>():
     <span class="code-function">print</span>(<span class="code-string">f'Bot is online as {bot.user}'</span>)
 
 <span class="code-comment"># Command: Say hello</span>
-<span class="code-keyword">@bot.command</span>()
+<span class="code-keyword">@</span>bot.command()
 <span class="code-keyword">async def</span> <span class="code-function">hello</span>(ctx):
-    <span class="code-keyword">await</span> ctx.<span class="code-function">send</span>(<span class="code-string">'Hello! I am your friendly bot!'</span>)
+    <span class="code-keyword">await</span> ctx.<span class="code-function">send</span>(<span class="code-string">'Hello! I am your bot!'</span>)
 
 <span class="code-comment"># Run the bot</span>
-bot.<span class="code-function">run</span>(<span class="code-string">'YOUR_BOT_TOKEN'</span>)</pre>
+bot.<span class="code-function">run</span>(<span class="code-string">'YOUR_TOKEN_HERE'</span>)</pre>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('discord-2')">
+                                            Now You Try!
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('discord-2')">
-                                        Now You Try!
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div class="lesson-step" id="python-discord-2">
-                                <h3 class="lesson-title">Now You Try: Create a Command</h3>
-                                <p class="lesson-description">
-                                    Create a bot command called <code>ping</code> that responds with "Pong!"
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Make Your Own!
-                                    </div>
-                                    <p class="your-turn-description">Create the ping command:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="python-discord-input" placeholder="@bot.command()
+                                <div class="lesson-step" id="python-discord-2">
+                                    <h3 class="lesson-title">Now You Try: Create a Command</h3>
+                                    <p class="lesson-description">
+                                        Create a bot command called <code>ping</code> that responds with "Pong!" when a user types !ping
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Create the ping command:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="python-discord-input" placeholder="@bot.command()
 async def ping(ctx):
-    # Your code here"></textarea>
+    # Your code here" oninput="checkPythonDiscordInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('discord-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkPythonDiscord()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="python-discord-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="python-discord-hint-btn" onclick="showPythonDiscordHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('discord-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkPythonDiscord()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Excellent!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="python-discord-user"></pre>
+                                    <div class="result-box" id="python-discord-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
+                                            <span class="result-badge success">Excellent!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="python-discord-user"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Code</div>
 <pre>@bot.command()
 async def ping(ctx):
     await ctx.send('Pong!')</pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Console App Steps -->
-                            <div class="lesson-step" id="python-console-1">
-                                <h3 class="lesson-title">Python Console Application</h3>
-                                <p class="lesson-description">
-                                    Let's create a simple console application that prints a message and handles user input:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">Python</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                            Copy
-                                        </button>
-                                    </div>
-                                    <div class="code-example-body">
-<pre><span class="code-comment"># Simple console application</span>
-<span class="code-keyword">def</span> <span class="code-function">main</span>():
-    <span class="code-function">print</span>(<span class="code-string">"Welcome to Code Hub Console!"</span>)
-    <span class="code-function">print</span>(<span class="code-string">"="</span> * <span class="code-number">30</span>)
+                                <!-- Console App Steps -->
+                                <div class="lesson-step" id="python-console-1">
+                                    <h3 class="lesson-title">Python Console App</h3>
+                                    <p class="lesson-description">
+                                        Console apps run in the terminal and interact with users through text input/output. Here's a simple example:
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">Python</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
+<pre><span class="code-keyword">def</span> <span class="code-function">main</span>():
+    <span class="code-function">print</span>(<span class="code-string">"Welcome to My Console App!"</span>)
+    <span class="code-function">print</span>(<span class="code-string">"=========================="</span>)
     
-    name = <span class="code-function">input</span>(<span class="code-string">"Enter your name: "</span>)
-    <span class="code-function">print</span>(<span class="code-string">f"Hello, {name}!"</span>)
+    <span class="code-comment"># Get user input</span>
+    name = <span class="code-function">input</span>(<span class="code-string">"What is your name? "</span>)
     
-    <span class="code-keyword">while</span> <span class="code-keyword">True</span>:
-        cmd = <span class="code-function">input</span>(<span class="code-string">"\nEnter command (help/quit): "</span>)
-        <span class="code-keyword">if</span> cmd == <span class="code-string">"help"</span>:
-            <span class="code-function">print</span>(<span class="code-string">"Available commands: help, quit"</span>)
-        <span class="code-keyword">elif</span> cmd == <span class="code-string">"quit"</span>:
-            <span class="code-function">print</span>(<span class="code-string">"Goodbye!"</span>)
-            <span class="code-keyword">break</span>
+    <span class="code-comment"># Process and output</span>
+    <span class="code-function">print</span>(<span class="code-string">f"Hello, {name}! Nice to meet you!"</span>)
+    
+    <span class="code-comment"># Simple calculation</span>
+    num1 = <span class="code-function">int</span>(<span class="code-function">input</span>(<span class="code-string">"Enter a number: "</span>))
+    num2 = <span class="code-function">int</span>(<span class="code-function">input</span>(<span class="code-string">"Enter another number: "</span>))
+    <span class="code-function">print</span>(<span class="code-string">f"Sum: {num1 + num2}"</span>)
 
 <span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
     <span class="code-function">main</span>()</pre>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('console-2')">
+                                            Now You Try!
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('step-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="pythonNextStep('console-2')">
-                                        Now You Try!
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div class="lesson-step" id="python-console-2">
-                                <h3 class="lesson-title">Now You Try: Create a Function</h3>
-                                <p class="lesson-description">
-                                    Create a function called <code>greet_user</code> that takes a name parameter and prints a greeting message.
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Make Your Own!
+                                <div class="lesson-step" id="python-console-2">
+                                    <h3 class="lesson-title">Now You Try: Print a Message</h3>
+                                    <p class="lesson-description">
+                                        Create a function called <code>greet</code> that takes a name parameter and prints "Hello, [name]!"
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Create the greet function:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="python-console-input" placeholder="def greet(name):
+    # Your code here" oninput="checkPythonConsoleInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                    <p class="your-turn-description">Create the greet_user function:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="python-console-input" placeholder="def greet_user(name):
-    # Your code here"></textarea>
-                                    </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('console-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkPythonConsole()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="python-console-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="python-console-hint-btn" onclick="showPythonConsoleHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="pythonNextStep('console-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkPythonConsole()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Well Done!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="python-console-user"></pre>
+                                    <div class="result-box" id="python-console-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
-<pre>def greet_user(name):
+                                            <span class="result-badge success">Perfect!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="python-console-user"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Code</div>
+<pre>def greet(name):
     print(f"Hello, {name}!")</pre>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hint Sidebar for Python -->
+                        <div class="hint-sidebar" id="python-hint-sidebar">
+                            <div class="hint-sidebar-header">
+                                <div class="hint-sidebar-icon">💡</div>
+                                <div>
+                                    <div class="hint-sidebar-title">Hints & Tips</div>
+                                    <div class="hint-sidebar-subtitle">Python Language</div>
+                                </div>
+                            </div>
+                            <div id="python-hints-container">
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">📝</div>
+                                        <span class="hint-card-type">Getting Started</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Choose a project above to begin. Hints will update as you progress through the lessons.
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">🔑</div>
+                                        <span class="hint-card-type">Key Concept</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Python uses indentation to define code blocks. Make sure your code is properly indented!
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">⚡</div>
+                                        <span class="hint-card-type">Quick Tip</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Use <code>f-strings</code> for easy string formatting: <code>f"Hello, {name}!"</code>
                                     </div>
                                 </div>
                             </div>
@@ -2590,60 +2951,61 @@ async def ping(ctx):
                     </div>
                 </div>
 
-                <!-- C++ Content -->
+                <!-- C++ CONTENT -->
                 <div class="learn-content" id="cpp-content">
-                    <div class="learn-box">
-                        <div class="learn-box-header">
-                            <div class="learn-box-title">
-                                <div class="learn-box-title-icon">⚡</div>
-                                C++ Development
-                            </div>
-                            <div class="learn-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="cpp-progress" style="width: 0%"></div>
+                    <div class="learn-layout">
+                        <div class="learn-box">
+                            <div class="learn-box-header">
+                                <div class="learn-box-title">
+                                    <div class="learn-box-title-icon">⚡</div>
+                                    C++ Projects
                                 </div>
-                                <span class="progress-text" id="cpp-progress-text">0%</span>
-                            </div>
-                        </div>
-                        <div class="learn-box-body">
-                            <!-- Step 1: Choose Topic -->
-                            <div class="lesson-step active" id="cpp-step-1">
-                                <h3 class="lesson-title">Choose Your Project</h3>
-                                <p class="lesson-description">
-                                    C++ is a powerful systems programming language used for game engines, operating systems, and high-performance applications. Choose a project:
-                                </p>
-                                <div class="topic-selector">
-                                    <div class="topic-card" onclick="selectCppTopic('bootstrapper')">
-                                        <div class="topic-icon">🚀</div>
-                                        <div class="topic-name">Bootstrapper</div>
-                                        <div class="topic-desc">Create a program launcher</div>
+                                <div class="learn-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="cpp-progress" style="width: 0%"></div>
                                     </div>
-                                    <div class="topic-card" onclick="selectCppTopic('debugger')">
-                                        <div class="topic-icon">🔍</div>
-                                        <div class="topic-name">Debugger</div>
-                                        <div class="topic-desc">Build a simple debugger</div>
-                                    </div>
+                                    <span class="progress-text" id="cpp-progress-text">0%</span>
                                 </div>
                             </div>
+                            <div class="learn-box-body">
+                                <!-- Step 1: Choose Topic -->
+                                <div class="lesson-step active" id="cpp-step-1">
+                                    <h3 class="lesson-title">Choose Your Project</h3>
+                                    <p class="lesson-description">
+                                        C++ is a powerful systems programming language used for game engines, operating systems, and high-performance applications. Choose a project:
+                                    </p>
+                                    <div class="topic-selector">
+                                        <div class="topic-card" onclick="selectCppTopic('bootstrapper')">
+                                            <div class="topic-icon">🚀</div>
+                                            <div class="topic-name">Bootstrapper</div>
+                                            <div class="topic-desc">Create a program launcher</div>
+                                        </div>
+                                        <div class="topic-card" onclick="selectCppTopic('debugger')">
+                                            <div class="topic-icon">🔍</div>
+                                            <div class="topic-name">Debugger</div>
+                                            <div class="topic-desc">Build a simple debugger</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <!-- Bootstrapper Steps -->
-                            <div class="lesson-step" id="cpp-bootstrapper-1">
-                                <h3 class="lesson-title">C++ Bootstrapper</h3>
-                                <p class="lesson-description">
-                                    A bootstrapper is a program that initializes and launches other programs. Here's a basic example:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">C++</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                            Copy
-                                        </button>
-                                    </div>
-                                    <div class="code-example-body">
+                                <!-- Bootstrapper Steps -->
+                                <div class="lesson-step" id="cpp-bootstrapper-1">
+                                    <h3 class="lesson-title">C++ Bootstrapper</h3>
+                                    <p class="lesson-description">
+                                        A bootstrapper is a program that initializes and launches other programs. Here's a basic example:
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">C++</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
 <pre><span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
 <span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
 <span class="code-keyword">#include</span> <span class="code-string">&lt;cstdlib&gt;</span>
@@ -2673,99 +3035,107 @@ async def ping(ctx):
     }
     <span class="code-keyword">return</span> <span class="code-number">0</span>;
 }</pre>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('bootstrapper-2')">
+                                            Now You Try!
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('bootstrapper-2')">
-                                        Now You Try!
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div class="lesson-step" id="cpp-bootstrapper-2">
-                                <h3 class="lesson-title">Now You Try: Create a Class</h3>
-                                <p class="lesson-description">
-                                    Create a class called <code>AppLoader</code> with a method <code>run()</code> that prints "Application started!"
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Make Your Own!
-                                    </div>
-                                    <p class="your-turn-description">Create the AppLoader class:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="cpp-bootstrapper-input" placeholder="class AppLoader {
+                                <div class="lesson-step" id="cpp-bootstrapper-2">
+                                    <h3 class="lesson-title">Now You Try: Create a Class</h3>
+                                    <p class="lesson-description">
+                                        Create a class called <code>AppLoader</code> with a method <code>run()</code> that prints "Application started!"
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Create the AppLoader class:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="cpp-bootstrapper-input" placeholder="class AppLoader {
 public:
     void run() {
         // Your code here
     }
-};"></textarea>
+};" oninput="checkCppBootstrapperInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('bootstrapper-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkCppBootstrapper()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="cpp-bootstrapper-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="cpp-boot-hint-btn" onclick="showCppBootstrapperHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('bootstrapper-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkCppBootstrapper()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Awesome!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="cpp-bootstrapper-user"></pre>
+                                    <div class="result-box" id="cpp-bootstrapper-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
+                                            <span class="result-badge success">Awesome!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="cpp-bootstrapper-user"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Code</div>
 <pre>class AppLoader {
 public:
     void run() {
         std::cout << "Application started!" << std::endl;
     }
 };</pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Debugger Steps -->
-                            <div class="lesson-step" id="cpp-debugger-1">
-                                <h3 class="lesson-title">C++ Simple Debugger</h3>
-                                <p class="lesson-description">
-                                    A debugger helps track and fix errors in code. Here's a simple logging debugger:
-                                </p>
-                                <div class="code-example">
-                                    <div class="code-example-header">
-                                        <span class="code-example-lang">C++</span>
-                                        <button class="code-example-copy" onclick="copyCode(this)">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                            Copy
-                                        </button>
-                                    </div>
-                                    <div class="code-example-body">
+                                <!-- Debugger Steps -->
+                                <div class="lesson-step" id="cpp-debugger-1">
+                                    <h3 class="lesson-title">C++ Simple Debugger</h3>
+                                    <p class="lesson-description">
+                                        A debugger helps track and fix errors in code. Here's a simple logging debugger:
+                                    </p>
+                                    <div class="code-example">
+                                        <div class="code-example-header">
+                                            <span class="code-example-lang">C++</span>
+                                            <button class="code-example-copy" onclick="copyCode(this)">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="code-example-body">
 <pre><span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
 <span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
 
@@ -2795,71 +3165,120 @@ public:
     debug.<span class="code-function">log</span>(LogLevel::ERROR, <span class="code-string">"File not found"</span>);
     <span class="code-keyword">return</span> <span class="code-number">0</span>;
 }</pre>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-buttons">
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('debugger-2')">
+                                            Now You Try!
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('step-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="cppNextStep('debugger-2')">
-                                        Now You Try!
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div class="lesson-step" id="cpp-debugger-2">
-                                <h3 class="lesson-title">Now You Try: Create a Log Method</h3>
-                                <p class="lesson-description">
-                                    Create a method called <code>logError</code> that takes a string message and prints it with "[ERROR]" prefix.
-                                </p>
-                                <div class="your-turn-box">
-                                    <div class="your-turn-title">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        Make Your Own!
-                                    </div>
-                                    <p class="your-turn-description">Create the logError method:</p>
-                                    <div class="code-input-area">
-                                        <textarea class="code-input" id="cpp-debugger-input" placeholder="void logError(std::string message) {
+                                <div class="lesson-step" id="cpp-debugger-2">
+                                    <h3 class="lesson-title">Now You Try: Create a Log Method</h3>
+                                    <p class="lesson-description">
+                                        Create a method called <code>logError</code> that takes a string message and prints it with "[ERROR]" prefix.
+                                    </p>
+                                    <div class="your-turn-box">
+                                        <div class="your-turn-title">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                            </svg>
+                                            Make Your Own!
+                                        </div>
+                                        <p class="your-turn-description">Create the logError method:</p>
+                                        <div class="code-input-area">
+                                            <textarea class="code-input" id="cpp-debugger-input" placeholder="void logError(std::string message) {
     // Your code here
-}"></textarea>
+}" oninput="checkCppDebuggerInput(this.value)"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="lesson-buttons">
-                                    <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('debugger-1')">Back</button>
-                                    <button class="lesson-btn lesson-btn-primary" onclick="checkCppDebugger()">
-                                        Check My Code
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="result-box" id="cpp-debugger-result">
-                                    <div class="result-header">
-                                        <div class="result-title">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="lesson-buttons">
+                                        <button class="hint-btn" id="cpp-debug-hint-btn" onclick="showCppDebuggerHint()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            Get Hint
+                                        </button>
+                                        <button class="lesson-btn lesson-btn-secondary" onclick="cppNextStep('debugger-1')">Back</button>
+                                        <button class="lesson-btn lesson-btn-primary" onclick="checkCppDebugger()">
+                                            Check My Code
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="20 6 9 17 4 12"></polyline>
                                             </svg>
-                                            Code Comparison
-                                        </div>
-                                        <span class="result-badge success">Great Work!</span>
+                                        </button>
                                     </div>
-                                    <div class="result-body">
-                                        <div class="result-comparison">
-                                            <div class="result-column">
-                                                <div class="result-column-title">Your Code</div>
-                                                <pre id="cpp-debugger-user"></pre>
+                                    <div class="result-box" id="cpp-debugger-result">
+                                        <div class="result-header">
+                                            <div class="result-title">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                Code Comparison
                                             </div>
-                                            <div class="result-column">
-                                                <div class="result-column-title">Expected Code</div>
+                                            <span class="result-badge success">Great Work!</span>
+                                        </div>
+                                        <div class="result-body">
+                                            <div class="result-comparison">
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Your Code</div>
+                                                    <pre id="cpp-debugger-user"></pre>
+                                                </div>
+                                                <div class="result-column">
+                                                    <div class="result-column-title">Expected Code</div>
 <pre>void logError(std::string message) {
     std::cerr << "[ERROR] " << message << std::endl;
 }</pre>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hint Sidebar for C++ -->
+                        <div class="hint-sidebar" id="cpp-hint-sidebar">
+                            <div class="hint-sidebar-header">
+                                <div class="hint-sidebar-icon">💡</div>
+                                <div>
+                                    <div class="hint-sidebar-title">Hints & Tips</div>
+                                    <div class="hint-sidebar-subtitle">C++ Language</div>
+                                </div>
+                            </div>
+                            <div id="cpp-hints-container">
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">📝</div>
+                                        <span class="hint-card-type">Getting Started</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Choose a project above to begin. Hints will update as you learn C++.
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">🔑</div>
+                                        <span class="hint-card-type">Key Concept</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        In C++, use <code>std::cout</code> for output and <code>std::endl</code> for newlines.
+                                    </div>
+                                </div>
+                                <div class="hint-card">
+                                    <div class="hint-card-header">
+                                        <div class="hint-card-icon">⚡</div>
+                                        <span class="hint-card-type">Quick Tip</span>
+                                    </div>
+                                    <div class="hint-card-content">
+                                        Use <code>std::cerr</code> instead of <code>std::cout</code> for error messages.
                                     </div>
                                 </div>
                             </div>
@@ -2973,7 +3392,6 @@ public:
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number" data-value="50+">0</div>
-                        <!-- Changed from 10,000 to 50+ users -->
                         <div class="stat-label">Users</div>
                     </div>
                     <div class="stat-card">
@@ -3001,7 +3419,6 @@ public:
                         <a href="#features">Features</a>
                         <a href="#learn">Learn</a>
                         <a href="#ai">AI Chat</a>
-                        <!-- Discord link updated -->
                         <a href="https://discord.gg/CcAqAnGdzk" target="_blank">Discord</a>
                     </div>
                     <p class="footer-copyright">© 2025 Code Hub. All rights reserved.</p>
@@ -3023,17 +3440,48 @@ public:
         // PAGE INITIALIZATION
         // ═══════════════════════════════════════════════════════════════════════════
         
+        function hideLoader() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        }
+
+        // Fallback - always hide loader after 3 seconds max
+        setTimeout(hideLoader, 3000);
+
         document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            initScrollAnimations();
-            initNavigation();
-            initAIChat();
-            initCounters();
-            initLearnSection();
+            try {
+                createParticles();
+            } catch(e) { console.log('[v0] Particles error:', e); }
             
-            setTimeout(() => {
-                document.getElementById('pageLoader').classList.add('hidden');
-            }, 1500);
+            try {
+                initScrollAnimations();
+            } catch(e) { console.log('[v0] Scroll animations error:', e); }
+            
+            try {
+                initNavigation();
+            } catch(e) { console.log('[v0] Navigation error:', e); }
+            
+            try {
+                initAIChat();
+            } catch(e) { console.log('[v0] AI Chat error:', e); }
+            
+            try {
+                initCounters();
+            } catch(e) { console.log('[v0] Counters error:', e); }
+            
+            try {
+                initLearnSection();
+            } catch(e) { console.log('[v0] Learn section error:', e); }
+            
+            // Hide loader after initialization
+            setTimeout(hideLoader, 1500);
+        });
+
+        // Also hide on window load as backup
+        window.addEventListener('load', () => {
+            setTimeout(hideLoader, 500);
         });
 
         // ═══════════════════════════════════════════════════════════════════════════
@@ -3120,6 +3568,28 @@ public:
         }
 
         // ═══════════════════════════════════════════════════════════════════════════
+        // SUGGESTION TOAST (for typing suggestions)
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        let suggestionTimeout = null;
+        
+        function showSuggestionToast(message) {
+            const toast = document.getElementById('suggestionToast');
+            const content = document.getElementById('suggestionToastContent');
+            content.innerHTML = message;
+            toast.classList.add('show');
+            
+            if (suggestionTimeout) clearTimeout(suggestionTimeout);
+            suggestionTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 8000);
+        }
+        
+        function closeSuggestionToast() {
+            document.getElementById('suggestionToast').classList.remove('show');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
         // COPY CODE
         // ═══════════════════════════════════════════════════════════════════════════
         
@@ -3134,7 +3604,7 @@ public:
         }
 
         // ═══════════════════════════════════════════════════════════════════════════
-        // LEARN SECTION
+        // LEARN SECTION WITH HINTS
         // ═══════════════════════════════════════════════════════════════════════════
         
         function initLearnSection() {
@@ -3153,6 +3623,83 @@ public:
             
             document.querySelectorAll('.learn-content').forEach(c => c.classList.remove('active'));
             document.getElementById(`${lang}-content`).classList.add('active');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // LUA HINTS & SUGGESTIONS
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        let luaFunctionHintUsed = false;
+        let luaVariableHintUsed = false;
+        
+        function showLuaFunctionHint() {
+            const btn = document.getElementById('lua-func-hint-btn');
+            if (luaFunctionHintUsed) return;
+            
+            luaFunctionHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            // Update sidebar with hint
+            const container = document.getElementById('lua-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Function Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Use <code>return a * b</code> to multiply two numbers and return the result. The <code>*</code> operator is for multiplication in Lua!
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        function showLuaVariableHint() {
+            const btn = document.getElementById('lua-var-hint-btn');
+            if (luaVariableHintUsed) return;
+            
+            luaVariableHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            const container = document.getElementById('lua-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Variable Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Remember to use <code>local</code> keyword: <code>local myAge = 25</code>. Replace 25 with any number you want!
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        // Real-time suggestions while typing
+        function checkLuaFunctionInput(value) {
+            if (value.length > 10 && !value.includes('return')) {
+                showSuggestionToast('Maybe try adding <strong>return a * b</strong> to return the multiplication result!');
+            } else if (value.includes('function') && !value.includes('local')) {
+                showSuggestionToast('Consider using <strong>local function</strong> for better scoping!');
+            } else if (value.includes('+') && !value.includes('*')) {
+                showSuggestionToast('Remember, we want multiplication! Try using <strong>*</strong> instead of <strong>+</strong>');
+            }
+        }
+        
+        function checkLuaVariableInput(value) {
+            if (value.length > 5 && !value.includes('local')) {
+                showSuggestionToast('Don\'t forget the <strong>local</strong> keyword for local variables!');
+            } else if (value.includes('=') && !value.includes('myAge')) {
+                showSuggestionToast('Make sure your variable is named <strong>myAge</strong>!');
+            }
         }
 
         // Lua Steps
@@ -3179,12 +3726,115 @@ public:
             setTimeout(() => luaNextStep(6), 1500);
         }
 
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PYTHON HINTS & SUGGESTIONS
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        let pythonDiscordHintUsed = false;
+        let pythonConsoleHintUsed = false;
+        
+        function showPythonDiscordHint() {
+            const btn = document.getElementById('python-discord-hint-btn');
+            if (pythonDiscordHintUsed) return;
+            
+            pythonDiscordHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            const container = document.getElementById('python-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Discord Bot Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Use <code>await ctx.send('Pong!')</code> to send a message back. Don't forget the <code>await</code> keyword for async functions!
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        function showPythonConsoleHint() {
+            const btn = document.getElementById('python-console-hint-btn');
+            if (pythonConsoleHintUsed) return;
+            
+            pythonConsoleHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            const container = document.getElementById('python-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Console Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Use <code>print(f"Hello, {name}!")</code> with an f-string to include the name variable in your output!
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        function checkPythonDiscordInput(value) {
+            if (value.length > 15 && !value.includes('await')) {
+                showSuggestionToast('Don\'t forget to use <strong>await</strong> before ctx.send() - it\'s required for async functions!');
+            } else if (value.includes('send') && !value.includes('ctx.send')) {
+                showSuggestionToast('Make sure to use <strong>ctx.send()</strong> to send the message to the channel!');
+            }
+        }
+        
+        function checkPythonConsoleInput(value) {
+            if (value.length > 10 && !value.includes('print')) {
+                showSuggestionToast('Use the <strong>print()</strong> function to output text to the console!');
+            } else if (value.includes('print') && !value.includes('f"') && !value.includes("f'")) {
+                showSuggestionToast('Try using an <strong>f-string</strong> like <strong>f"Hello, {name}!"</strong> for easier formatting!');
+            }
+        }
+
         // Python Steps
         function selectPythonTopic(topic) {
             pythonNextStep(`${topic}-1`);
             const progress = 25;
             document.getElementById('python-progress').style.width = progress + '%';
             document.getElementById('python-progress-text').textContent = progress + '%';
+            
+            // Update hints based on topic
+            const container = document.getElementById('python-hints-container');
+            if (topic === 'discord') {
+                const hintCard = document.createElement('div');
+                hintCard.className = 'hint-card';
+                hintCard.innerHTML = `
+                    <div class="hint-card-header">
+                        <div class="hint-card-icon">🤖</div>
+                        <span class="hint-card-type">Discord.py Tip</span>
+                    </div>
+                    <div class="hint-card-content">
+                        Commands in discord.py use the <code>@bot.command()</code> decorator. The <code>ctx</code> parameter gives you access to the message context!
+                    </div>
+                `;
+                container.insertBefore(hintCard, container.firstChild);
+            } else {
+                const hintCard = document.createElement('div');
+                hintCard.className = 'hint-card';
+                hintCard.innerHTML = `
+                    <div class="hint-card-header">
+                        <div class="hint-card-icon">💻</div>
+                        <span class="hint-card-type">Console Tip</span>
+                    </div>
+                    <div class="hint-card-content">
+                        Use <code>input()</code> to get user input and <code>print()</code> to display output. Python makes console apps simple!
+                    </div>
+                `;
+                container.insertBefore(hintCard, container.firstChild);
+            }
         }
 
         function pythonNextStep(step) {
@@ -3208,12 +3858,117 @@ public:
             document.getElementById('python-progress-text').textContent = '100%';
         }
 
+        // ═══════════════════════════════════════════════════════════════════════════
+        // C++ HINTS & SUGGESTIONS
+        // ═══════════════════════════════════════════════════════════════════════════
+        
+        let cppBootstrapperHintUsed = false;
+        let cppDebuggerHintUsed = false;
+        
+        function showCppBootstrapperHint() {
+            const btn = document.getElementById('cpp-boot-hint-btn');
+            if (cppBootstrapperHintUsed) return;
+            
+            cppBootstrapperHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            const container = document.getElementById('cpp-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Class Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Use <code>std::cout << "Application started!" << std::endl;</code> inside the run() method to print the message!
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        function showCppDebuggerHint() {
+            const btn = document.getElementById('cpp-debug-hint-btn');
+            if (cppDebuggerHintUsed) return;
+            
+            cppDebuggerHintUsed = true;
+            btn.classList.add('used');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Hint Used`;
+            
+            const container = document.getElementById('cpp-hints-container');
+            const hintCard = document.createElement('div');
+            hintCard.className = 'hint-card';
+            hintCard.innerHTML = `
+                <div class="hint-card-header">
+                    <div class="hint-card-icon">💡</div>
+                    <span class="hint-card-type">Debugger Hint</span>
+                </div>
+                <div class="hint-card-content">
+                    Use <code>std::cerr</code> for error output: <code>std::cerr << "[ERROR] " << message << std::endl;</code>
+                </div>
+            `;
+            container.insertBefore(hintCard, container.firstChild);
+            
+            showToast('Hint added to sidebar!');
+        }
+        
+        function checkCppBootstrapperInput(value) {
+            if (value.length > 20 && !value.includes('std::cout')) {
+                showSuggestionToast('Use <strong>std::cout</strong> to output text in C++!');
+            } else if (value.includes('cout') && !value.includes('std::')) {
+                showSuggestionToast('Don\'t forget the <strong>std::</strong> namespace prefix before cout!');
+            } else if (value.includes('std::cout') && !value.includes('endl')) {
+                showSuggestionToast('Add <strong>std::endl</strong> at the end to create a new line!');
+            }
+        }
+        
+        function checkCppDebuggerInput(value) {
+            if (value.length > 15 && !value.includes('cerr') && !value.includes('cout')) {
+                showSuggestionToast('Use <strong>std::cerr</strong> for error messages (it writes to standard error)!');
+            } else if (value.includes('[ERROR]') && !value.includes('<<')) {
+                showSuggestionToast('Use the <strong><<</strong> operator to concatenate strings in C++ output!');
+            }
+        }
+
         // C++ Steps
         function selectCppTopic(topic) {
             cppNextStep(`${topic}-1`);
             const progress = 25;
             document.getElementById('cpp-progress').style.width = progress + '%';
             document.getElementById('cpp-progress-text').textContent = progress + '%';
+            
+            // Update hints based on topic
+            const container = document.getElementById('cpp-hints-container');
+            if (topic === 'bootstrapper') {
+                const hintCard = document.createElement('div');
+                hintCard.className = 'hint-card';
+                hintCard.innerHTML = `
+                    <div class="hint-card-header">
+                        <div class="hint-card-icon">🚀</div>
+                        <span class="hint-card-type">Bootstrapper Tip</span>
+                    </div>
+                    <div class="hint-card-content">
+                        Classes in C++ use <code>public:</code> and <code>private:</code> access specifiers. Methods under <code>public:</code> can be called from outside the class!
+                    </div>
+                `;
+                container.insertBefore(hintCard, container.firstChild);
+            } else {
+                const hintCard = document.createElement('div');
+                hintCard.className = 'hint-card';
+                hintCard.innerHTML = `
+                    <div class="hint-card-header">
+                        <div class="hint-card-icon">🔍</div>
+                        <span class="hint-card-type">Debugger Tip</span>
+                    </div>
+                    <div class="hint-card-content">
+                        Use <code>std::cerr</code> instead of <code>std::cout</code> for error messages - they go to a different output stream!
+                    </div>
+                `;
+                container.insertBefore(hintCard, container.firstChild);
+            }
         }
 
         function cppNextStep(step) {
@@ -3238,7 +3993,7 @@ public:
         }
 
         // ═══════════════════════════════════════════════════════════════════════════
-        // AI CHAT - Using Free Hugging Face API
+        // AI CHAT - Local Responses
         // ═══════════════════════════════════════════════════════════════════════════
         
         const aiResponses = {
@@ -3389,96 +4144,127 @@ What would you like to learn today?`
                 }
             });
             
-            input.addEventListener('input', () => {
-                input.style.height = 'auto';
-                input.style.height = Math.min(input.scrollHeight, 200) + 'px';
-            });
-            
             sendBtn.addEventListener('click', sendMessage);
+            
+            input.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+            });
+        }
+
+        function askSuggestion(text) {
+            document.getElementById('aiInput').value = text;
+            sendMessage();
         }
 
         async function sendMessage() {
             const input = document.getElementById('aiInput');
             const message = input.value.trim();
+            
             if (!message) return;
             
-            document.getElementById('aiWelcome').style.display = 'none';
-            document.getElementById('chatMessages').classList.add('active');
+            const welcome = document.getElementById('aiWelcome');
+            const messages = document.getElementById('chatMessages');
             
+            welcome.style.display = 'none';
+            messages.classList.add('active');
+            
+            // Add user message
             addMessage('user', message);
             input.value = '';
             input.style.height = 'auto';
             
-            showTyping();
-            
-            setTimeout(() => {
-                hideTyping();
-                const response = getAIResponse(message);
-                addMessage('assistant', response);
-            }, 1500);
-        }
-
-        function getAIResponse(message) {
-            const lower = message.toLowerCase();
-            
-            if (lower.includes('lua') || lower.includes('function')) {
-                return aiResponses.lua;
-            } else if (lower.includes('debug') || lower.includes('error') || lower.includes('fix')) {
-                return aiResponses.debug;
-            } else if (lower.includes('python') || lower.includes('async') || lower.includes('await')) {
-                return aiResponses.python;
-            } else if (lower.includes('c++') || lower.includes('cpp') || lower.includes('memory')) {
-                return aiResponses.cpp;
-            }
-            
-            return aiResponses.default;
-        }
-
-        function addMessage(type, content) {
-            const container = document.getElementById('chatMessages');
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            const formattedContent = formatMessage(content);
-            
-            const messageHtml = `
-                <div class="chat-message ${type}">
-                    <div class="message-avatar ${type}">${type === 'user' ? 'U' : 'CH'}</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">${type === 'user' ? 'You' : 'Code Hub AI'}</span>
-                            <span class="message-time">${time}</span>
-                        </div>
-                        <div class="message-body">${formattedContent}</div>
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message';
+            typingDiv.innerHTML = `
+                <div class="message-avatar assistant">CH</div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
                     </div>
                 </div>
             `;
+            messages.appendChild(typingDiv);
+            messages.scrollTop = messages.scrollHeight;
             
-            container.insertAdjacentHTML('beforeend', messageHtml);
-            container.scrollTop = container.scrollHeight;
+            // Simulate response delay
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+            
+            // Remove typing indicator
+            typingDiv.remove();
+            
+            // Get appropriate response
+            let response = aiResponses.default;
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('lua') || lowerMessage.includes('function')) {
+                response = aiResponses.lua;
+            } else if (lowerMessage.includes('debug') || lowerMessage.includes('error') || lowerMessage.includes('fix')) {
+                response = aiResponses.debug;
+            } else if (lowerMessage.includes('python') || lowerMessage.includes('async') || lowerMessage.includes('await')) {
+                response = aiResponses.python;
+            } else if (lowerMessage.includes('c++') || lowerMessage.includes('memory') || lowerMessage.includes('pointer')) {
+                response = aiResponses.cpp;
+            }
+            
+            addMessage('assistant', response);
         }
 
-        function formatMessage(text) {
-            // Code blocks
-            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+        function addMessage(type, content) {
+            const messages = document.getElementById('chatMessages');
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${type}`;
+            
+            const formattedContent = formatMessage(content);
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar ${type}">${type === 'user' ? 'U' : 'CH'}</div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="message-sender">${type === 'user' ? 'You' : 'Code Hub AI'}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-body">${formattedContent}</div>
+                </div>
+            `;
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function formatMessage(content) {
+            // Handle code blocks
+            content = content.replace(/\`\`\`(\w+)?\n([\s\S]*?)\`\`\`/g, (match, lang, code) => {
                 return `<div class="message-code-block">
                     <div class="code-block-header">
                         <span class="code-block-lang">${lang || 'code'}</span>
-                        <button class="code-block-copy" onclick="copyCodeBlock(this)">Copy</button>
+                        <button class="code-block-copy" onclick="copyCodeBlock(this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
                     </div>
                     <div class="code-block-content"><pre>${escapeHtml(code.trim())}</pre></div>
                 </div>`;
             });
             
-            // Inline code
-            text = text.replace(/`([^`]+)`/g, '<code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px;">$1</code>');
+            // Handle inline code
+            content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
             
-            // Bold
-            text = text.replace(/\*\*([^*]+)\*\*/g, '<strong style="color: var(--text-primary);">$1</strong>');
+            // Handle bold
+            content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
             
-            // Line breaks
-            text = text.replace(/\n/g, '<br>');
+            // Handle line breaks
+            content = content.replace(/\n/g, '<br>');
             
-            return text;
+            return content;
         }
 
         function escapeHtml(text) {
@@ -3490,48 +4276,27 @@ What would you like to learn today?`
         function copyCodeBlock(btn) {
             const code = btn.closest('.message-code-block').querySelector('pre').textContent;
             navigator.clipboard.writeText(code).then(() => {
-                btn.textContent = 'Copied!';
-                setTimeout(() => btn.textContent = 'Copy', 2000);
+                btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy`;
+                }, 2000);
             });
         }
 
-        function showTyping() {
-            const container = document.getElementById('chatMessages');
-            const typingHtml = `
-                <div class="chat-message assistant" id="typingIndicator">
-                    <div class="message-avatar assistant">CH</div>
-                    <div class="typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', typingHtml);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function hideTyping() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) indicator.remove();
-        }
-
-        function askSuggestion(text) {
-            document.getElementById('aiInput').value = text;
-            sendMessage();
-        }
-
         // ═══════════════════════════════════════════════════════════════════════════
-        // COUNTERS
+        // COUNTER ANIMATION
         // ═══════════════════════════════════════════════════════════════════════════
         
         function initCounters() {
             const counters = document.querySelectorAll('.stat-number');
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        animateCounter(entry.target);
-                        observer.unobserve(entry.target);
+                        const counter = entry.target;
+                        const target = counter.getAttribute('data-value');
+                        animateCounter(counter, target);
+                        observer.unobserve(counter);
                     }
                 });
             }, { threshold: 0.5 });
@@ -3539,26 +4304,28 @@ What would you like to learn today?`
             counters.forEach(counter => observer.observe(counter));
         }
 
-        function animateCounter(element) {
-            const target = element.dataset.value;
+        function animateCounter(element, target) {
             const isPercentage = target.includes('%');
             const hasPlus = target.includes('+');
-            const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
-            
+            const numericTarget = parseInt(target.replace(/[\+%]/g, ''));
             let current = 0;
-            const increment = numericValue / 50;
-            const timer = setInterval(() => {
+            const duration = 1500; // milliseconds
+            const increment = numericTarget / (duration / 16); // Update ~60 times per second
+
+            const interval = setInterval(() => {
                 current += increment;
-                if (current >= numericValue) {
-                    current = numericValue;
-                    clearInterval(timer);
+                if (current >= numericTarget) {
+                    current = numericTarget;
+                    clearInterval(interval);
                 }
-                let display = Math.floor(current);
-                if (hasPlus) display += '+';
-                if (isPercentage) display += '%';
-                element.textContent = display;
-            }, 30);
+                let displayValue = Math.floor(current);
+                if (isPercentage) displayValue += '%';
+                if (hasPlus && numericTarget > 10) displayValue = `+${displayValue}`; // Only add '+' for larger numbers
+
+                element.textContent = displayValue;
+            }, 16);
         }
+
     </script>
 </body>
 </html>
